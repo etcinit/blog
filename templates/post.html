@@ -1,8 +1,10 @@
+<h1>$title$</h1>
+
 <div class="info">
-    Posted on $date$
-    $if(author)$
-        by $author$
-    $endif$
+  <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
+  $if(author)$
+    by $author$
+  $endif$
 </div>
 
 $body$

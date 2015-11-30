@@ -23,4 +23,5 @@ _cache/
 _site/
 
 # sass
+.sass-cache
 css/.sass-cache

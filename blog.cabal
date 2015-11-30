@@ -17,4 +17,6 @@ executable blog
   default-language:    Haskell2010
   ghc-options:         -threaded
   build-depends:       base == 4.*,
-                       hakyll == 4.7.*
+                       hakyll == 4.7.*,
+                       filepath == 1.4.*,
+                       split == 0.2.*
