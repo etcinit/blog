@@ -1,10 +1,18 @@
-<h1>$title$</h1>
+<div class="post">
+  <div class="row">
+    <div class="columns">
+      <a href="$url$">
+        <h1 class="cardboard $color$">$title$</h1>
+      </a>
+    </div>
+  </div>
 
-<div class="info">
-  <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
-  $if(author)$
-    by $author$
-  $endif$
+  <div class="info">
+    <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
+    $if(author)$
+      by $author$
+    $endif$
+  </div>
+
+  $body$
 </div>
-
-$body$

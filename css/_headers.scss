@@ -1,0 +1,61 @@
+@import "colors";
+
+h1 {
+  &.cardboard {
+    line-height: rem-calc(50);
+    float: left;
+    font-weight: bold;
+    padding: rem-calc(10);
+    color: $color-white;
+    background-color: $color-red-dark;
+
+    &.purple {
+      background-color: $color-purple-dark;
+    }
+    &.yellow {
+      background-color: $color-yellow-dark;
+    }
+    &.orange {
+      background-color: $color-orange-dark;
+    }
+    &.red {
+      background-color: $color-red-dark;
+    }
+    &.cyan {
+      background-color: $color-cyan-dark;
+    }
+    &.green {
+      background-color: $color-green-dark;
+    }
+    &.blue {
+      background-color: $color-blue-dark;
+    }
+  }
+}
+
+a:hover h1.cardboard {
+  text-decoration: underline;
+  background-color: $color-white;
+
+  &.purple:hover {
+    color: $color-purple-dark;
+  }
+  &.yellow:hover {
+    color: $color-yellow-dark;
+  }
+  &.orange:hover {
+    color: $color-orange-dark;
+  }
+  &.red:hover {
+    color: $color-red-dark;
+  }
+  &.cyan:hover {
+    color: $color-cyan-dark;
+  }
+  &.green:hover {
+    color: $color-green-dark;
+  }
+  &.blue:hover {
+    color: $color-blue-dark;
+  }
+}

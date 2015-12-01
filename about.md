@@ -2,19 +2,21 @@
 title: About
 ---
 
-# About
+<div class="row"><div class="column">
+  <h1 class="cardboard">\>\> whoami</h1>
+</div></div>
 
-Nullam imperdiet sodales orci vitae molestie. Nunc quam orci, pharetra a
-rhoncus vitae, eleifend id felis. Suspendisse potenti. Etiam vitae urna orci.
-Quisque pellentesque dignissim felis, egestas tempus urna luctus vitae. In hac
-habitasse platea dictumst. Morbi fringilla mattis odio, et mattis tellus
-accumsan vitae.
+My name is Eduardo Trujillo (Thru-he-yoh). I'm a Computer Scientist living in
+Athens, GA. (University of Georgia).
 
-1. Amamus Unicode 碁
-2. Interdum nex magna.
+Technology in general is one of my passions. My more specific interests range
+from server-side programming, to rich application design and graphic design.
 
-Vivamus eget mauris sit amet nulla laoreet lobortis. Nulla in diam elementum
-risus convallis commodo. Cras vehicula varius dui vitae facilisis. Proin
-elementum libero eget leo aliquet quis euismod orci vestibulum. Duis rhoncus
-lorem consequat tellus vestibulum aliquam. Quisque orci orci, malesuada porta
-blandit et, interdum nec magna.
+My work: Quality over quantity. I'm fluent in PHP and Javascript, and also use
+other languages like C++, Python, etc. I like building things from scratch and
+understand how they work. I tend to prefer comprehensive solutions, not quick
+hacks. I'm a gamer too. FPSs, Indies and Hack-and-slash RPGs are within my
+favorites.
+
+This is my personal blog. Here I post, complain, share, and discuss about
+things that are going through my mind at the moment.

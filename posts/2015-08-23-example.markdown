@@ -1,5 +1,5 @@
 ---
-title: example post
+title: Example post
 date: Mon Nov 30 04:56:00 EDT 2015
 author: Eduardo Trujillo
 ---

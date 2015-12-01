@@ -19,4 +19,6 @@ executable blog
   build-depends:       base == 4.*,
                        hakyll == 4.7.*,
                        filepath == 1.4.*,
-                       split == 0.2.*
+                       split == 0.2.*,
+                       random,
+                       transformers

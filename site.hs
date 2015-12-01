@@ -1,11 +1,13 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import Control.Monad (liftM)
+import Control.Monad.IO.Class
 import Data.Monoid (mappend)
 import Data.List (intersperse)
 import Data.List.Split (splitOn)
 import Hakyll
 import System.FilePath (combine, splitExtension, takeFileName)
+import System.Random (randomRIO)
 --------------------------------------------------------------------------------
 main :: IO ()
 main = hakyll $ do
@@ -19,7 +21,7 @@ main = hakyll $ do
       withItemBody
         (unixFilter "sass" ["-s", "--scss", "--load-path=css"]))
 
-  match (fromList ["about.md", "contact.markdown"]) $ do
+  match (fromList ["about.md", "projects.md"]) $ do
     route $ setExtension "html"
     compile $ pandocCompiler
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
@@ -27,11 +29,18 @@ main = hakyll $ do
 
   match "posts/*" $ do
     route $ directorizeDate `composeRoutes` setExtension "html"
-    compile $ pandocCompiler
-      >>= loadAndApplyTemplate "templates/post.html" postCtx
-      >>= saveSnapshot "content"
-      >>= loadAndApplyTemplate "templates/default.html" postCtx
-      >>= relativizeUrls
+    compile $ do
+      color <- unsafeCompiler (randomRIO (0, length colors - 1)
+        >>= \selection -> pure (colors !! selection))
+
+      let ctx = constField "color" color `mappend`
+            postCtx
+
+      pandocCompiler
+        >>= loadAndApplyTemplate "templates/post.html" ctx
+        >>= saveSnapshot "content"
+        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
 
   create ["archive.html"] $ do
     route idRoute
@@ -60,7 +69,7 @@ main = hakyll $ do
       let ctx = paginateCtx `mappend` indexCtx
 
       loadAllSnapshots "posts/*" "content"
-        >>= fmap (take 100) . recentFirst
+        >>= fmap (take 3) . recentFirst
         >>= applyTemplateList tpl ctx
         >>= makeItem
         >>= applyTemplate body (ctx `mappend` bodyField "posts")
@@ -73,7 +82,9 @@ main = hakyll $ do
         tpl <- loadBody "templates/post-item-full.html"
 
         let paginateCtx = paginateContext pag pageNum
-        let ctx = paginateCtx `mappend` indexCtx
+        let ctx = paginateCtx `mappend`
+              constField "title" ("Page " ++ show pageNum) `mappend`
+              indexCtx
 
         loadAllSnapshots pattern "content"
           >>= recentFirst
@@ -94,10 +105,13 @@ postCtx =
     defaultContext
 
 indexCtx :: Context String
-indexCtx =
-    constField "title" "Home" `mappend`
-    defaultContext
+indexCtx = defaultContext
 
+--------------------------------------------------------------------------------
+colors :: [String]
+colors = ["purple", "yellow", "orange", "red", "cyan", "green", "blue"]
+
+--------------------------------------------------------------------------------
 directorizeDate :: Routes
 directorizeDate = customRoute (\i -> directorize $ toFilePath i)
   where

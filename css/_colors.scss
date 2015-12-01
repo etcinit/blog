@@ -1,0 +1,22 @@
+$color-white: #ffffff;
+
+$color-primary: #010101;
+$color-header: #111;
+$color-secondary: #444;
+$color-subtle: #DDD;
+
+$color-purple: #c8387b;
+$color-yellow: #ffcc00;
+$color-orange: #ff7518;
+$color-red: #e41b1b;
+$color-cyan: #37c8ab;
+$color-green: #abc837;
+$color-blue: #009cc3;
+
+$color-purple-dark: desaturate($color-purple, 20%);
+$color-yellow-dark: desaturate($color-yellow, 20%);
+$color-orange-dark: desaturate($color-orange, 20%);
+$color-red-dark: desaturate($color-red, 20%);
+$color-cyan-dark: desaturate($color-cyan, 20%);
+$color-green-dark: desaturate($color-green, 20%);
+$color-blue-dark: desaturate($color-blue, 20%);
