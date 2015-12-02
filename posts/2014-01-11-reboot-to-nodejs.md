@@ -2,6 +2,7 @@
 title: Reboot to Node.js
 tags: nodejs, javascript, review
 uuid: b21f4eeb-c2f7-4194-b17c-5699ef4620cb
+legacy: reboot-to-nodejs
 ---
 
 So Node.js has been around for while now and if you read blogs about web development, you probably have heard how good it is supposed to be. For the past few years I have gotten pretty comfortable with PHP, and as a result things got a little bit uninteresting or slightly boring. So I decided to try out and learn a new language for web development. I was specifically looking to learn a language that allows you to roll your own web server. I was already learning about Java web dev in one of my classes that semester (JBoss specifically) so my two remaining options were Python and Node.

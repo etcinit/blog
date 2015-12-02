@@ -2,6 +2,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 import Control.Monad (liftM)
 import Control.Monad.IO.Class
+import qualified Data.Map as M
+import Data.Maybe (fromMaybe)
 import Data.Monoid (mappend)
 import Data.List (intersperse)
 import Data.List.Split (splitOn)
@@ -27,6 +29,21 @@ main = hakyll $ do
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
       >>= relativizeUrls
 
+  matchMetadata "posts/*" (M.member "legacy") $ version "legacy" $ do
+    route $ legacyRoute `composeRoutes` setExtension "html"
+    compile $ do
+      color <- unsafeCompiler (randomRIO (0, length colors - 1)
+        >>= \selection -> pure (colors !! selection))
+
+      let ctx = constField "color" color `mappend`
+            postCtx
+
+      pandocCompiler
+        >>= loadAndApplyTemplate "templates/post.html" ctx
+        >>= loadAndApplyTemplate "templates/full-post.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
+
   match "posts/*" $ do
     route $ directorizeDate `composeRoutes` setExtension "html"
     compile $ do
@@ -46,7 +63,7 @@ main = hakyll $ do
   create ["archive.html"] $ do
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAll "posts/*"
+      posts <- recentFirst =<< loadAll ("posts/*" .&&. hasNoVersion)
 
       let archiveCtx =
             listField "posts" postCtx (return posts) `mappend`
@@ -58,7 +75,7 @@ main = hakyll $ do
         >>= loadAndApplyTemplate "templates/default.html" archiveCtx
         >>= relativizeUrls
 
-  pag <- buildPaginateWith grouper "posts/*" makeId
+  pag <- buildPaginateWith grouper ("posts/*" .&&. hasNoVersion) makeId
 
   match "index.html" $ do
     route idRoute
@@ -69,7 +86,7 @@ main = hakyll $ do
       let paginateCtx = paginateContext pag 1
       let ctx = paginateCtx `mappend` indexCtx
 
-      loadAllSnapshots "posts/*" "content"
+      loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content"
         >>= fmap (take 3) . recentFirst
         >>= applyTemplateList tpl ctx
         >>= makeItem
@@ -126,4 +143,11 @@ grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
 grouper ids = (liftM (paginateEvery 3) . sortRecentFirst) ids
 
 makeId :: PageNumber -> Identifier
-makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ "/index.html"
+makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ "/index.html"
+
+-- | A special route that will produce paths compatible with the old Chromabits
+-- blog. The slug in that path is determined by a 'legacy' field on each post.
+legacyRoute :: Routes
+legacyRoute = metadataRoute $
+  \x -> constRoute $
+    "post/" ++ fromMaybe "unknown" (M.lookup "legacy" x) ++ "/index.html"

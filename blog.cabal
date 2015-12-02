@@ -21,4 +21,5 @@ executable blog
                        filepath == 1.4.*,
                        split == 0.2.*,
                        random,
-                       transformers
+                       transformers,
+                       containers == 0.5.*

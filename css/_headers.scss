@@ -2,60 +2,81 @@
 
 h1 {
   &.cardboard {
-    line-height: rem-calc(50);
+    transition: all 0.3s ease;
     float: left;
     font-weight: bold;
-    padding: rem-calc(10);
-    color: $color-white;
-    background-color: $color-red-dark;
+    padding: rem-calc(0);
 
-    &.purple {
-      background-color: $color-purple-dark;
-    }
-    &.yellow {
-      background-color: $color-yellow-dark;
-    }
-    &.orange {
-      background-color: $color-orange-dark;
-    }
-    &.red {
-      background-color: $color-red-dark;
-    }
-    &.cyan {
-      background-color: $color-cyan-dark;
-    }
-    &.green {
-      background-color: $color-green-dark;
-    }
-    &.blue {
-      background-color: $color-blue-dark;
+    span {
+      transition: all 0.3s ease;
+      line-height: rem-calc(50);
+      position: relative;
+      color: $color-white;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      padding: rem-calc(10);
+
+      &.purple {
+        background-color: $color-purple-dark;
+      }
+      &.yellow {
+        background-color: $color-yellow-dark;
+      }
+      &.orange {
+        background-color: $color-orange-dark;
+      }
+      &.red {
+        background-color: $color-red-dark;
+      }
+      &.cyan {
+        background-color: $color-cyan-dark;
+      }
+      &.green {
+        background-color: $color-green-dark;
+      }
+      &.blue {
+        background-color: $color-blue-dark;
+      }
     }
   }
 }
 
 a:hover h1.cardboard {
-  text-decoration: underline;
-  background-color: $color-white;
+  transform: scale(1.07);
 
-  &.purple:hover {
-    color: $color-purple-dark;
+  span {
+    box-shadow: 0 rem-calc(4) rem-calc(15) rgba(0,0,0,0.5);
+    background-color: $color-white;
+    //text-decoration: underline;
+
+    &.purple {
+      color: $color-purple-dark;
+    }
+    &.yellow {
+      color: $color-yellow-dark;
+    }
+    &.orange {
+      color: $color-orange-dark;
+    }
+    &.red {
+      color: $color-red-dark;
+    }
+    &.cyan {
+      color: $color-cyan-dark;
+    }
+    &.green {
+      color: $color-green-dark;
+    }
+    &.blue {
+      color: $color-blue-dark;
+    }
   }
-  &.yellow:hover {
-    color: $color-yellow-dark;
-  }
-  &.orange:hover {
-    color: $color-orange-dark;
-  }
-  &.red:hover {
-    color: $color-red-dark;
-  }
-  &.cyan:hover {
-    color: $color-cyan-dark;
-  }
-  &.green:hover {
-    color: $color-green-dark;
-  }
-  &.blue:hover {
-    color: $color-blue-dark;
+}
+
+a:active h1.cardboard {
+  transform: scale(0.97);
+
+  span {
+    box-shadow: 0 rem-calc(0) rem-calc(10) rgba(0,0,0,0.2);
   }
 }
