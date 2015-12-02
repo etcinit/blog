@@ -1,6 +1,7 @@
 ---
 title: Modern PHP Talk Slides
 tags: slides, laravel, php, talks
+uuid: 060fa96e-36c3-47ac-aedc-2389682781f4
 ---
 
 Here are the slides for my presentation on Modern PHP development with Laravel

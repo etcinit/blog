@@ -1,6 +1,7 @@
 ---
 title: Minecraft Bot in Node.js
 tags: minecraft, nodejs, ai
+uuid: a1efd1b4-abe3-41e6-af01-ab3d584f18d2
 ---
 
 I've recently been working on a Minecraft bot built in Node.js as part of my final project for my artificial intelligence class. The Minecraft-Node connection is possible thanks to a library called __Mineflayer__ which acts as a Javascript bridge between Minecraft and Node.

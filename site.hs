@@ -39,6 +39,7 @@ main = hakyll $ do
       pandocCompiler
         >>= loadAndApplyTemplate "templates/post.html" ctx
         >>= saveSnapshot "content"
+        >>= loadAndApplyTemplate "templates/full-post.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 

@@ -1,6 +1,7 @@
 ---
 title: Building a Phabricator and Slack bot
 tags: phabricator, slack, nodejs
+uuid: 75330309-7fa2-4ea3-96f9-6f67127fe744
 ---
 
 As the result of a short hacking session, I built a simple Node.js bot that forwards items from the Phabricator news feed into a Slack channel:

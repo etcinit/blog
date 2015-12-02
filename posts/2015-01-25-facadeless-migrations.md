@@ -1,6 +1,7 @@
 ---
 title: Facade-less migrations in Laravel 5
 tags: laravel5, migrations
+uuid: 8135efaf-3da3-4fd8-9efb-24286ccac2bc
 ---
 
 Found a quick way of avoiding using the Schema facade for migrations in Laravel:

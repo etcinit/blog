@@ -2,6 +2,7 @@
 title: Dropping everything and going static
 date: Mon Nov 30 04:56:00 EDT 2015
 author: Eduardo Trujillo
+uuid: 8a2cd1e5-edc9-46fc-82c0-739ace40f6ff
 ---
 
 Mauris in lorem nisl. Maecenas tempus facilisis ante, eget viverra nisl

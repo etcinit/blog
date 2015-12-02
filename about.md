@@ -3,7 +3,7 @@ title: About
 ---
 
 <div class="row"><div class="column">
-  <h1 class="cardboard">\>\> whoami</h1>
+  <h1 class="cardboard">About</h1>
 </div></div>
 
 My name is Eduardo Trujillo (Thru-he-yoh). I'm a Computer Scientist living in
