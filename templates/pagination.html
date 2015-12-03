@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="columns text-center">
+    <ul class="pagination" role="navigation" aria-label="Pagination">
+      $if(previousPageNum)$
+        <li class="pagination-previous">
+          <a href="$previousPageUrl$" aria-label="Previous page">
+            Newer entries
+          </a>
+        </li>
+      $else$
+        <li class="pagination-previous disabled">Newer entries</li>
+      $endif$
+
+      <li class="current">
+        <span class="show-for-sr">You're on page</span> $currentPageNum$
+      </li>
+
+      $if(nextPageNum)$
+        <li class="pagination-next">
+          <a href="$nextPageUrl$" aria-label="Next page">Older entries</a>
+        </li>
+      $else$
+        <li class="pagination-next disabled">Older entries</li>
+      $endif$
+    </ul>
+
+    <p><small>
+      …or you can find more in the <a href="/archive.html">archives</a>.
+    </small></p>
+  </div>
+</div>

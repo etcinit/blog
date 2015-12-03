@@ -85,3 +85,12 @@ div.callout-quote {
   margin-top: rem-calc(10);
   margin-bottom: rem-calc(15);
 }
+
+figcaption {
+  font-style: italic;
+  font-size: 80%;
+
+  &::before {
+    content: 'fig. '
+  }
+}
