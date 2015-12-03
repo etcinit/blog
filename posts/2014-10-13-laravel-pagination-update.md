@@ -2,6 +2,7 @@
 title: An update on Laravel 5 pagination
 tags: laravel, laravel5, pagination
 uuid: b27085d7-b026-4423-83bf-39571e385239
+legacy: an-update-on-laravel-5-pagination
 ---
 
 Laravel 5 in its current state does not have a fully working pagination. It only seems to return simple paginators (they are not aware of the total number of items). This will most likely change in the future, but if you really need pagination working on Laravel 5 right now you can try the following:

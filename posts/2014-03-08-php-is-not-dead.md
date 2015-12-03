@@ -2,6 +2,7 @@
 title: Using Laravel: PHP is not dead
 tags: php, laravel
 uuid: 9b92d244-281c-401c-8c72-3e9a67e976c3
+legacy: using-laravel-php-is-not-dead
 ---
 
 My last post in web development was about Node.js and how easy I found to build web apps with it. However, this doesn't mean I have abandoned PHP, in fact, it has pushed me to __write better PHP applications and improve the quality of my code__.

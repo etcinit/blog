@@ -2,6 +2,7 @@
 title: Ensure.js 0.4: Record Types and better testing
 tags: type-checking, ensure, nodejs, javascript
 uuid: e1b251c3-10cd-41d1-9d64-faa70d407e9b
+legacy: ensurejs-04-record-types-and-better-testing
 ---
 
 I just finished pushing a new set of updates to Ensure.js! Now all tests are run through the

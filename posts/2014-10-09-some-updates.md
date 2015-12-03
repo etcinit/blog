@@ -2,6 +2,7 @@
 title: Some updates
 tags: laravel, laravel5, php, hhvm, pagination, ai
 uuid: d52ed484-cd81-4f2f-8828-b76328f1caf3
+legacy: some-updates
 ---
 
 ## Laravel 5 and Foundation Pagination

@@ -2,6 +2,7 @@
 title: Mousetrap + React.js
 tags: react, mousetrap, js
 uuid: 583db650-ee44-4c2e-9780-6af560872f0e
+legacy: mousetrap--reactjs
 ---
 
 Here's a little mixin I've been using on React.js for interacting with the Mousetrap library (a library for handling keyboard shortcuts on the browser). It automatically unbinds shortcuts once the component unmounts and provides some convenience methods for avoiding interacting with Mousetrap directly on m components.

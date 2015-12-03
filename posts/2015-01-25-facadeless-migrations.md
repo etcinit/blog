@@ -2,11 +2,13 @@
 title: Facade-less migrations in Laravel 5
 tags: laravel5, migrations
 uuid: 8135efaf-3da3-4fd8-9efb-24286ccac2bc
+legacy: facade-less-migration-in-laravel-5
+author: Eduardo Trujillo
 ---
 
 Found a quick way of avoiding using the Schema facade for migrations in Laravel:
 
-```php
+``` {#cadvisor .php .numberLines startFrom="0"}
 <?php
 
 namespace App\Database;

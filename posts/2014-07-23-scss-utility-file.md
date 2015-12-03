@@ -2,6 +2,7 @@
 title: SCSS utility file
 tags: scss, front-end
 uuid: 2c1452e3-a597-44e6-934c-e263ccf0696c
+legacy: scss-utility-file
 ---
 
 These are some SCSS mixins I use on most of my projects. I'll be adding more

@@ -2,6 +2,7 @@
 title: Laravel 5: Custom Logs
 tags: laravel, laravel5, logs, php
 uuid: f9095ab9-008f-44fd-aa54-b148dcd007e0
+legacy: laravel-5-custom-logs
 ---
 
 Laravel 5 introduces the concept of "bootstrappers", which are classes whose sole purpose is to setup the application. This new layer of abstraction makes many of the initialization code of the application modular and portable, so if you want to replace or change how a part or the whole initialization process, you can!

@@ -2,6 +2,7 @@
 title: Checkboxes and ZURB Foundation
 tags: foundation, scss
 uuid: e34db4cd-1b4e-402a-abcf-45460ce6f3cd
+legacy: checkboxes-and-zurb-foundation
 ---
 
 The current version ZURB's Foundation (A CSS framework) doesn't style form checkboxes and the final look is always the browser default, which can look good or bad depending on your OS.

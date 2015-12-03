@@ -22,7 +22,8 @@ data SiteConfiguration = SiteConfiguration
 --------------------------------------------------------------------------------
 hakyllConf :: Configuration
 hakyllConf = defaultConfiguration
-  { deployCommand = "rsync -ave 'ssh' _site/* chromabits.com:www/chromabits"
+  { deployCommand =
+      "rsync -ave 'ssh' _site/* chromabits.com:/www/chromabits.com"
   }
 
 siteConf :: SiteConfiguration
@@ -59,14 +60,24 @@ main = hakyllWith hakyllConf $ do
     route $ setExtension "css"
     compile copyFileCompiler
 
+  match "favicon.ico" $ do
+    route $ setExtension "ico"
+    compile copyFileCompiler
+
   match "bower_components/font-awesome/fonts/*" $ do
     route $ gsubRoute "bower_components/font-awesome/" (const "")
     compile copyFileCompiler
 
-  match (fromList ["about.md"]) $ do
+  create ["404.html"] $ do
     route $ setExtension "html"
     compile $ pandocHtml5Compiler
-      >>= loadAndApplyTemplate "templates/default.html" defaultContext
+      >>= loadAndApplyTemplate "templates/default.html" siteCtx
+      >>= relativizeUrls
+
+  create ["about.html"] $ do
+    route $ indexify `composeRoutes` setExtension "html"
+    compile $ pandocHtml5Compiler
+      >>= loadAndApplyTemplate "templates/default.html" siteCtx
       >>= relativizeUrls
 
   matchMetadata "posts/*" (M.member "legacy") $ version "legacy" $ do
@@ -100,30 +111,41 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
-  match "projects/*" $ do
+  match "drafts/*" $ do
     route $ setExtension "html"
+    compile $ do
+      let ctx = constField "color" "red" `mappend` postCtx
+
+      pandocHtml5Compiler
+        >>= loadAndApplyTemplate "templates/post.html" ctx
+        >>= loadAndApplyTemplate "templates/full-post.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
+
+  match "projects/*" $ do
+    route $ indexify `composeRoutes` setExtension "html"
     compile $ do
       compiled <- pandocHtml5Compiler
       full <- loadAndApplyTemplate "templates/project.html"
-        defaultContext compiled
+        siteCtx compiled
       teaser <- loadAndApplyTemplate "templates/project-teaser.html"
-        defaultContext $ dropMore compiled
+        siteCtx $ dropMore compiled
 
       saveSnapshot "teaser" teaser
 
       saveSnapshot "content" full
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" siteCtx
         >>= relativizeUrls
 
   create ["archive.html"] $ do
-    route idRoute
+    route indexify
     compile $ do
       posts <- recentFirst =<< loadAll ("posts/*" .&&. hasNoVersion)
 
       let archiveCtx =
             listField "posts" postCtx (return posts) `mappend`
             constField "title" "Archives" `mappend`
-            defaultContext
+            siteCtx
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
@@ -131,14 +153,14 @@ main = hakyllWith hakyllConf $ do
         >>= relativizeUrls
 
   create ["projects.html"] $ do
-    route idRoute
+    route indexify
     compile $ do
       projects <- loadAllSnapshots "projects/*" "teaser"
 
       let archiveCtx =
-            listField "posts" defaultContext (return projects) `mappend`
+            listField "posts" siteCtx (return projects) `mappend`
             constField "title" "Projects" `mappend`
-            defaultContext
+            siteCtx
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/projects.html" archiveCtx
@@ -187,14 +209,20 @@ main = hakyllWith hakyllConf $ do
     match "templates/*" $ compile templateCompiler
 
 --------------------------------------------------------------------------------
+siteCtx :: Context String
+siteCtx =
+  constField "root" (siteRoot siteConf) `mappend`
+  constField "gaId" (siteGaId siteConf) `mappend`
+  defaultContext
+
 postCtx :: Context String
 postCtx =
     dateField "date" "%B %e, %Y" `mappend`
     dateField "datetime" "%Y-%m-%d" `mappend`
-    defaultContext
+    siteCtx
 
 indexCtx :: Context String
-indexCtx = defaultContext
+indexCtx = siteCtx
 
 --------------------------------------------------------------------------------
 colors :: [String]
@@ -209,6 +237,13 @@ directorizeDate = customRoute (\i -> directorize $ toFilePath i)
         (dirs, ext) = splitExtension $ concat $
           intersperse "/" date ++ ["/"] ++ intersperse "-" rest
         (date, rest) = splitAt 3 $ splitOn "-" path
+
+indexify :: Routes
+indexify = customRoute (\i -> addIndex $ toFilePath i)
+  where
+    addIndex path = original ++ "/index" ++ ext
+     where
+       (original, ext) = splitExtension path
 
 grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
 grouper ids = (liftM (paginateEvery 3) . sortRecentFirst) ids

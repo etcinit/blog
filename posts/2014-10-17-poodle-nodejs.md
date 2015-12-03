@@ -2,6 +2,7 @@
 title: POODLE and node.js
 tags: poodle, ssl, nodejs, security
 uuid: bfa447a6-0b2b-44e2-b693-b042f209d8cf
+legacy: poodle-and-nodejs
 ---
 
 ![SSL 3 is broken](http://assets.chromabits.com/posts/POODLE.png)

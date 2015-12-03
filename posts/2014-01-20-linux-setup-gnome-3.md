@@ -2,6 +2,7 @@
 title: Linux setup: Gnome 3
 tags: linux, gnome, fedora
 uuid: 97473bd1-82a8-412a-8863-68ca30a5ef6e
+legacy: linux-setup-gnome-3
 ---
 
 [![Desktop screenshot](/img/posts/gnome/screenshot.png)](/img/posts/gnome/screenshot.png)

@@ -2,6 +2,7 @@
 title: Minecraft AI Agent
 tags: minecraft, ai, agent, nodejs
 uuid: 7bc05e06-abad-4f3e-9c29-49ea569b516c
+legacy: minecraft-ai-agent
 ---
 
 *The following is an adaptation of a report I wrote on the Minecraft AI agent I build as part of the final project for my Artificial Illigence class at UGA. Some parts of it still sound like a report.*

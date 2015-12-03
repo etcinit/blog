@@ -3,6 +3,7 @@ title: Nucleus
 platform: PHP
 docs: http://chromabits.github.io/nucleus/
 github: chromabits/nucleus
+uuid: d6589d2b-7a52-4832-bc1b-cb39c600de21
 ---
 
 A standalone PHP utility library.

@@ -2,6 +2,7 @@
 title: Nexus Configuration Server
 platform: Javascript
 github: etcinit/nexus
+uuid: 629a587c-2930-4d0c-89bb-011ffcd40c5a
 ---
 
 A simple web server for storing configuration and log files on a centralized

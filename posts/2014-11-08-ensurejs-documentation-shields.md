@@ -2,6 +2,7 @@
 title: Ensure 0.5.0: Documentation and shields!
 tags: ensure, nodejs
 uuid: a4d02358-7410-46ed-be8a-b99730a0e45d
+legacy: ensure-050-documentation-and-shields
 ---
 
 _Ensure.js is my JavaScript dynamic type checking library. For more information go [here](https://chromabits.com/post/ensurejs-simple-type-checking-on-javascript)_

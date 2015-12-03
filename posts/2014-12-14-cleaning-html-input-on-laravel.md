@@ -2,6 +2,7 @@
 title: Cleaning HTML input on Laravel 5
 tags: laravel5, php, purifier, html
 uuid: ad9d55d9-ece0-4dc5-be54-15672e843468
+legacy: cleaning-html-input-on-laravel-5
 ---
 
 ## Introduction

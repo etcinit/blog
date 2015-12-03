@@ -3,6 +3,7 @@ title: Heapster and Deis: So hip!
 tags: docker, heapster, coreos, influxdb
 uuid: 09e80619-b671-47ec-b419-a57813d55ff2
 legacy: heapster-and-deis-so-hip
+author: Eduardo Trujillo
 ---
 
 ![Metrics in Grafana](//i.imgur.com/uUnd1oq.png)
