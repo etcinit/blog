@@ -13,8 +13,21 @@
 
         <script src="https://use.typekit.net/voy2fek.js"></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+        <meta property="fb:admins" content="etcinit"/>
     </head>
     <body>
+      <div id="fb-root"></div>
+      <script>
+      (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=332765426823646";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+      </script>
+
         <div id="header" class="row align-middle">
           <div class="columns medium-6">
             <a href="/" id="logo"><div></div></a>

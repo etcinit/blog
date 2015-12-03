@@ -1,11 +1,12 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
+import Control.Applicative
 import Control.Monad (liftM)
 import Control.Monad.IO.Class
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
 import Data.Monoid (mappend)
-import Data.List (intersperse)
+import Data.List (intersperse, isSuffixOf)
 import Data.List.Split (splitOn)
 import Hakyll
 import Text.Highlighting.Kate.Styles (haddock)
@@ -73,12 +74,14 @@ main = hakyllWith hakyllConf $ do
     compile $ pandocHtml5Compiler
       >>= loadAndApplyTemplate "templates/default.html" siteCtx
       >>= relativizeUrls
+      >>= deIndexUrls
 
   create ["about.html"] $ do
     route $ indexify `composeRoutes` setExtension "html"
     compile $ pandocHtml5Compiler
       >>= loadAndApplyTemplate "templates/default.html" siteCtx
       >>= relativizeUrls
+      >>= deIndexUrls
 
   matchMetadata "posts/*" (M.member "legacy") $ version "legacy" $ do
     route $ legacyRoute `composeRoutes` setExtension "html"
@@ -94,6 +97,7 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/full-post.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
+        >>= deIndexUrls
 
   match "posts/*" $ do
     route $ directorizeDate `composeRoutes` setExtension "html"
@@ -110,6 +114,7 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/full-post.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
+        >>= deIndexUrls
 
   match "drafts/*" $ do
     route $ setExtension "html"
@@ -121,6 +126,7 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/full-post.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
+        >>= deIndexUrls
 
   match "projects/*" $ do
     route $ indexify `composeRoutes` setExtension "html"
@@ -136,6 +142,7 @@ main = hakyllWith hakyllConf $ do
       saveSnapshot "content" full
         >>= loadAndApplyTemplate "templates/default.html" siteCtx
         >>= relativizeUrls
+        >>= deIndexUrls
 
   create ["archive.html"] $ do
     route indexify
@@ -151,6 +158,7 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
         >>= loadAndApplyTemplate "templates/default.html" archiveCtx
         >>= relativizeUrls
+        >>= deIndexUrls
 
   create ["projects.html"] $ do
     route indexify
@@ -166,6 +174,7 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/projects.html" archiveCtx
         >>= loadAndApplyTemplate "templates/default.html" archiveCtx
         >>= relativizeUrls
+        >>= deIndexUrls
 
   pag <- buildPaginateWith grouper ("posts/*" .&&. hasNoVersion) makeId
 
@@ -185,6 +194,7 @@ main = hakyllWith hakyllConf $ do
         >>= applyTemplate body (ctx `mappend` bodyField "posts")
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
+        >>= deIndexUrls
 
     paginateRules pag $ \pageNum pattern -> do
       route idRoute
@@ -205,12 +215,14 @@ main = hakyllWith hakyllConf $ do
           >>= loadAndApplyTemplate "templates/default.html"
             (ctx `mappend` bodyField "posts")
           >>= relativizeUrls
+          >>= deIndexUrls
 
     match "templates/*" $ compile templateCompiler
 
 --------------------------------------------------------------------------------
 siteCtx :: Context String
 siteCtx =
+  deIndexedUrlField "url" `mappend`
   constField "root" (siteRoot siteConf) `mappend`
   constField "gaId" (siteGaId siteConf) `mappend`
   defaultContext
@@ -250,6 +262,18 @@ grouper ids = (liftM (paginateEvery 3) . sortRecentFirst) ids
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ "/index.html"
+
+stripIndex :: String -> String
+stripIndex url = if "index.html" `isSuffixOf` url
+    && elem (head url) ("/." :: String)
+  then take (length url - 10) url else url
+
+deIndexUrls :: Item String -> Compiler (Item String)
+deIndexUrls item = return $ fmap (withUrls stripIndex) item
+
+deIndexedUrlField :: String -> Context a
+deIndexedUrlField key = field key
+  $ fmap (stripIndex . maybe empty toUrl) . getRoute . itemIdentifier
 
 dropMore :: Item String -> Item String
 dropMore = fmap (unlines . takeWhile (/= "<!--more-->") . lines)
