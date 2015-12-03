@@ -53,7 +53,7 @@ importing this [template](https://github.com/GoogleCloudPlatform/heapster/blob/m
 
 No modifications necessary.
 
-``` ini
+``` {#cadvisor .ini .numberLines startFrom="0"}
 [Unit]
 Description=cAdvisor Service
 After=docker.service
@@ -85,7 +85,7 @@ Modify the environment variables to match your setup. Also, note that this is
 not a global service. It is intended to run on only one server. Otherwise you
 would get duplicate stats.
 
-``` ini
+``` {#heapster .ini .numberLines startFrom="0"}
 [Unit]
 Description=Heapster
 After=docker.service cadvisor.service

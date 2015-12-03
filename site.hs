@@ -8,11 +8,49 @@ import Data.Monoid (mappend)
 import Data.List (intersperse)
 import Data.List.Split (splitOn)
 import Hakyll
+import Text.Highlighting.Kate.Styles (haddock)
+import Text.Pandoc.Options
 import System.FilePath (combine, splitExtension, takeFileName)
 import System.Random (randomRIO)
+
+--------------------------------------------------------------------------------
+data SiteConfiguration = SiteConfiguration
+  { siteRoot :: String
+  , siteGaId :: String
+  }
+
+--------------------------------------------------------------------------------
+hakyllConf :: Configuration
+hakyllConf = defaultConfiguration
+  { deployCommand = "rsync -ave 'ssh' _site/* chromabits.com:www/chromabits"
+  }
+
+siteConf :: SiteConfiguration
+siteConf = SiteConfiguration
+  { siteRoot = "https://chromabits.com"
+  , siteGaId = "UA-47694260-1"
+  }
+
+feedConf :: String -> FeedConfiguration
+feedConf title = FeedConfiguration
+  { feedTitle = "Chromabits: " ++ title
+  , feedDescription = "Personal blog"
+  , feedAuthorName = "Eduardo Trujillo"
+  , feedAuthorEmail = "ed@chromabits.com"
+  , feedRoot = "https://chromabits.com"
+  }
+
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyll $ do
+main = hakyllWith hakyllConf $ do
+  let writerOptions = defaultHakyllWriterOptions
+        { writerHtml5 = True
+        , writerHighlightStyle = haddock
+        }
+
+  let pandocHtml5Compiler =
+        pandocCompilerWith defaultHakyllReaderOptions writerOptions
+
   match "images/*" $ do
     route idRoute
     compile copyFileCompiler
@@ -25,7 +63,7 @@ main = hakyll $ do
 
   match (fromList ["about.md", "projects.md"]) $ do
     route $ setExtension "html"
-    compile $ pandocCompiler
+    compile $ pandocHtml5Compiler
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
       >>= relativizeUrls
 
@@ -38,7 +76,7 @@ main = hakyll $ do
       let ctx = constField "color" color `mappend`
             postCtx
 
-      pandocCompiler
+      pandocHtml5Compiler
         >>= loadAndApplyTemplate "templates/post.html" ctx
         >>= loadAndApplyTemplate "templates/full-post.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -53,7 +91,7 @@ main = hakyll $ do
       let ctx = constField "color" color `mappend`
             postCtx
 
-      pandocCompiler
+      pandocHtml5Compiler
         >>= loadAndApplyTemplate "templates/post.html" ctx
         >>= saveSnapshot "content"
         >>= loadAndApplyTemplate "templates/full-post.html" ctx

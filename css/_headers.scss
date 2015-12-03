@@ -2,81 +2,50 @@
 
 h1 {
   &.cardboard {
+    font-family: 'adelle-sans';
+    font-weight: 400;
     transition: all 0.3s ease;
     float: left;
     font-weight: bold;
     padding: rem-calc(0);
+    line-height: rem-calc(60);
 
     span {
       transition: all 0.3s ease;
-      line-height: rem-calc(50);
       position: relative;
       color: $color-white;
       -webkit-box-decoration-break: clone;
       box-decoration-break: clone;
-      padding: rem-calc(10);
 
       &.purple {
-        background-color: $color-purple-dark;
+        color: $color-purple-dark;
       }
       &.yellow {
-        background-color: $color-yellow-dark;
+        color: $color-yellow-dark;
       }
       &.orange {
-        background-color: $color-orange-dark;
+        color: $color-orange-dark;
       }
       &.red {
-        background-color: $color-red-dark;
+        color: $color-red-dark;
       }
       &.cyan {
-        background-color: $color-cyan-dark;
+        color: $color-cyan-dark;
       }
       &.green {
-        background-color: $color-green-dark;
+        color: $color-green-dark;
       }
       &.blue {
-        background-color: $color-blue-dark;
+        color: $color-blue-dark;
       }
     }
   }
 }
 
-a:hover h1.cardboard {
-  transform: scale(1.07);
-
-  span {
-    box-shadow: 0 rem-calc(4) rem-calc(15) rgba(0,0,0,0.5);
-    background-color: $color-white;
-    //text-decoration: underline;
-
-    &.purple {
-      color: $color-purple-dark;
-    }
-    &.yellow {
-      color: $color-yellow-dark;
-    }
-    &.orange {
-      color: $color-orange-dark;
-    }
-    &.red {
-      color: $color-red-dark;
-    }
-    &.cyan {
-      color: $color-cyan-dark;
-    }
-    &.green {
-      color: $color-green-dark;
-    }
-    &.blue {
-      color: $color-blue-dark;
-    }
-  }
+a:hover h1.cardboard span {
+  color: $black;
 }
 
 a:active h1.cardboard {
-  transform: scale(0.97);
-
-  span {
-    box-shadow: 0 rem-calc(0) rem-calc(10) rgba(0,0,0,0.2);
-  }
+  color: $black;
 }

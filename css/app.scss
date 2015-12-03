@@ -72,3 +72,16 @@ div.info {
 div.post {
   margin-bottom: rem-calc(50);
 }
+
+div.callout-quote {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 120%;
+
+  max-width: rem-calc(400);
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: rem-calc(10);
+  margin-bottom: rem-calc(15);
+}

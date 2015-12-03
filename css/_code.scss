@@ -1,8 +1,8 @@
 div.sourceCode {
   border: 1px $medium-gray solid;
   background-color: scale-color($medium-gray, $lightness: 85%);
-  padding: rem-calc(10);
   margin-bottom: rem-calc(10);
+  overflow-x: scroll;
 
   pre {
     border: none;
@@ -15,6 +15,13 @@ div.sourceCode {
   }
 }
 
+table.sourceCode {
+  width: 100%;
+
+  tbody {
+    border: none;
+  }
+}
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
    { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
 td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }

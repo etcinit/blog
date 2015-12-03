@@ -11,6 +11,11 @@ Morbi condimentum, tortor et tincidunt ullamcorper, sem quam pretium nulla, id
 convallis lectus libero nec turpis. Proin dapibus nisi id est sodales nec
 ultrices tortor pellentesque.
 
+<div class="callout-quote">
+  Hakyll is simple and fast, but it's speed and extensibility are the killer
+  features.
+</div>
+
 Vivamus vel nisi ac lacus sollicitudin vulputate
 ac ut ligula. Nullam feugiat risus eget eros gravida in molestie sapien euismod.
 Nunc sed hendrerit orci. Nulla mollis consequat lorem ac blandit. Ut et turpis

@@ -22,4 +22,6 @@ executable blog
                        split == 0.2.*,
                        random,
                        transformers,
-                       containers == 0.5.*
+                       containers == 0.5.*,
+                       pandoc == 1.*,
+                       highlighting-kate == 0.6.*
