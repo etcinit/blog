@@ -1,0 +1,107 @@
+@import 'settings';
+
+// Foundation
+@import 'foundation';
+
+@include foundation-global-styles;
+@include foundation-flex-grid;
+@include foundation-typography;
+@include foundation-button;
+@include foundation-forms;
+@include foundation-visibility-classes;
+@include foundation-float-classes;
+@include foundation-accordion;
+@include foundation-accordion-menu;
+@include foundation-badge;
+@include foundation-breadcrumbs;
+@include foundation-button-group;
+@include foundation-callout;
+@include foundation-close-button;
+@include foundation-drilldown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
+@include foundation-flex-video;
+@include foundation-label;
+@include foundation-media-object;
+@include foundation-menu;
+@include foundation-off-canvas;
+@include foundation-orbit;
+@include foundation-pagination;
+@include foundation-progress-bar;
+@include foundation-slider;
+@include foundation-sticky;
+@include foundation-reveal;
+@include foundation-switch;
+@include foundation-table;
+@include foundation-tabs;
+@include foundation-thumbnail;
+@include foundation-title-bar;
+@include foundation-tooltip;
+@include foundation-top-bar;
+
+@import "code";
+@import "colors";
+@import "headers";
+
+div#header {
+  padding-top: rem-calc(45);
+  padding-bottom: rem-calc(30);
+  border-bottom: 2px $medium-gray;
+}
+
+a#logo {
+  div {
+    background-image: url('/images/header_logo_float.png');
+    width: 143px;
+    height: 59px;
+  }
+}
+
+div#footer {
+  margin-top: rem-calc(30);
+  margin-bottom: rem-calc(30);
+}
+
+div.info {
+    color: #555;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: rem-calc(20);
+}
+
+div.post {
+  margin-bottom: rem-calc(50);
+}
+
+div.callout-quote {
+  font-weight: bold;
+  font-style: italic;
+  font-size: 120%;
+
+  max-width: rem-calc(400);
+
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: rem-calc(10);
+  margin-bottom: rem-calc(15);
+}
+
+figcaption {
+  font-style: italic;
+  font-size: 80%;
+
+  &::before {
+    content: 'fig. '
+  }
+}
+
+@include breakpoint(medium) {
+    .masonry {
+      column-count: 3;
+      column-gap: rem-calc(15);
+
+      .callout {
+        margin-bottom: rem-calc(15);
+      }
+    }
+}

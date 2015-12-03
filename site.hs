@@ -55,13 +55,11 @@ main = hakyllWith hakyllConf $ do
     route idRoute
     compile copyFileCompiler
 
-  match "css/app.scss" $ do
+  match "css/app.css" $ do
     route $ setExtension "css"
-    compile $ liftM (fmap compressCss) (getResourceString >>=
-      withItemBody
-        (unixFilter "sass" ["-s", "--scss", "--load-path=css"]))
+    compile copyFileCompiler
 
-  match (fromList ["about.md", "projects.md"]) $ do
+  match (fromList ["about.md"]) $ do
     route $ setExtension "html"
     compile $ pandocHtml5Compiler
       >>= loadAndApplyTemplate "templates/default.html" defaultContext
@@ -98,6 +96,21 @@ main = hakyllWith hakyllConf $ do
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
+  match "projects/*" $ do
+    route $ setExtension "html"
+    compile $ do
+      compiled <- pandocHtml5Compiler
+      full <- loadAndApplyTemplate "templates/project.html"
+        defaultContext compiled
+      teaser <- loadAndApplyTemplate "templates/project-teaser.html"
+        defaultContext $ dropMore compiled
+
+      saveSnapshot "teaser" teaser
+
+      saveSnapshot "content" full
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= relativizeUrls
+
   create ["archive.html"] $ do
     route idRoute
     compile $ do
@@ -110,6 +123,21 @@ main = hakyllWith hakyllConf $ do
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
+        >>= loadAndApplyTemplate "templates/default.html" archiveCtx
+        >>= relativizeUrls
+
+  create ["projects.html"] $ do
+    route idRoute
+    compile $ do
+      projects <- loadAllSnapshots "projects/*" "teaser"
+
+      let archiveCtx =
+            listField "posts" defaultContext (return projects) `mappend`
+            constField "title" "Projects" `mappend`
+            defaultContext
+
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/projects.html" archiveCtx
         >>= loadAndApplyTemplate "templates/default.html" archiveCtx
         >>= relativizeUrls
 
@@ -146,12 +174,13 @@ main = hakyllWith hakyllConf $ do
           >>= recentFirst
           >>= applyTemplateList tpl ctx
           >>= makeItem
-          >>= loadAndApplyTemplate "templates/paginated.html" (ctx `mappend` bodyField "posts")
-          >>= loadAndApplyTemplate "templates/default.html" (ctx `mappend` bodyField "posts")
+          >>= loadAndApplyTemplate "templates/paginated.html"
+            (ctx `mappend` bodyField "posts")
+          >>= loadAndApplyTemplate "templates/default.html"
+            (ctx `mappend` bodyField "posts")
           >>= relativizeUrls
 
     match "templates/*" $ compile templateCompiler
-
 
 --------------------------------------------------------------------------------
 postCtx :: Context String
@@ -182,6 +211,9 @@ grouper ids = (liftM (paginateEvery 3) . sortRecentFirst) ids
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ "/index.html"
+
+dropMore :: Item String -> Item String
+dropMore = fmap (unlines . takeWhile (/= "<!--more-->") . lines)
 
 -- | A special route that will produce paths compatible with the old Chromabits
 -- blog. The slug in that path is determined by a 'legacy' field on each post.

@@ -1,0 +1,23 @@
+{
+  "name": "chromabits",
+  "version": "1.0.0",
+  "description": "Personal blog.",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^2.2.0",
+    "gulp-load-plugins": "^1.1.0",
+    "gulp-sass": "^2.1.0"
+  },
+  "scripts": {
+    "start": "gulp",
+    "build": "gulp sass"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zurb/foundation-sites-template.git"
+  },
+  "author": "Eduardo Trujillo <ed@chromabits.com>",
+  "license": "MIT",
+  "private": true
+}

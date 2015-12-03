@@ -22,6 +22,8 @@ cabal.sandbox.config
 _cache/
 _site/
 
-# sass
+# frontend
 .sass-cache
 css/.sass-cache
+node_modules
+bower_components
