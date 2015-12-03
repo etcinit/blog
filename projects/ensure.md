@@ -1,6 +1,7 @@
 ---
 title: Ensure.js
 platform: Javascript
+github: etcinit/ensure
 ---
 
 A simple JavaScript type-checking library.

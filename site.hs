@@ -59,6 +59,10 @@ main = hakyllWith hakyllConf $ do
     route $ setExtension "css"
     compile copyFileCompiler
 
+  match "bower_components/font-awesome/fonts/*" $ do
+    route $ gsubRoute "bower_components/font-awesome/" (const "")
+    compile copyFileCompiler
+
   match (fromList ["about.md"]) $ do
     route $ setExtension "html"
     compile $ pandocHtml5Compiler

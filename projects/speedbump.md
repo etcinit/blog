@@ -1,6 +1,9 @@
 ---
 title: Speedbump
 platform: Go
+github: etcinit/speedbump
+sourcegraph: https://sourcegraph.com/github.com/etcinit/speedbump
+docs: https://godoc.org/github.com/etcinit/speedbump
 ---
 
 A rate-limitter in Go.

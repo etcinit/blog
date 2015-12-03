@@ -1,6 +1,7 @@
 ---
 title: Vertex
 platform: Docker
+github: etcinit/vertex
 ---
 
 A Docker image that I created for some of my personal and work projects.

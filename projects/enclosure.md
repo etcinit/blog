@@ -1,6 +1,7 @@
 ---
 title: Enclosure
 platform: Javascript
+github: etcinit/enclosure
 ---
 
 IoC container for Node.

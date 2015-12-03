@@ -1,6 +1,8 @@
 <div class="row">
-  <div class="column">
+  <div class="medium-8 columns">
     <a href="$url$" class="float-left"><h5>$title$</h5></a>
+  </div>
+  <div class="medium-4 columns">
     <div class="float-right">
       <span class="success label">$platform$</span>
     </div>
@@ -8,3 +10,32 @@
 </div>
 
 $body$
+
+<div class="row">
+  <div class="columns">
+    $if(github)$
+      <a href="https://github.com/$github$">
+        <i class="fa fa-github"></i>
+      </a>
+      &nbsp;
+    $endif$
+    $if(docs)$
+      <a href="$docs$"><i class="fa fa-book"></i></a>&nbsp;
+    $endif$
+    $if(sourcegraph)$
+      <a href="$sourcegraph$"><i class="fa fa-asterisk"></i></a>&nbsp;
+    $endif$
+    $if(post)$
+      <a href="$post$"><i class="fa fa-file-text-o"></i></a>&nbsp;
+    $endif$
+    $if(dockerhub)$
+      <a href="https://hub.docker.com/$dockerhub$">
+        <i class="fa fa-ship"></i>
+      </a>
+      &nbsp;
+    $endif$
+    $if(quay)$
+      <a href="https://quay.io/$quay$"><i class="fa fa-ship"></i></a>&nbsp;
+    $endif$
+  </div>
+</div>

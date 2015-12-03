@@ -39,6 +39,9 @@
 @include foundation-tooltip;
 @include foundation-top-bar;
 
+$fa-font-path: "/fonts/";
+@import "font-awesome";
+
 @import "code";
 @import "colors";
 @import "headers";
@@ -102,6 +105,8 @@ figcaption {
 
       .callout {
         margin-bottom: rem-calc(15);
+        display: inline-block;
+        width: 100%;
       }
     }
 }

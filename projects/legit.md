@@ -1,6 +1,7 @@
 ---
 title: Legit.js
 platform: Javascript
+github: etcinit/legit
 ---
 
 Just another input validation library.
