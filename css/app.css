@@ -5048,10 +5048,12 @@ div#header {
   padding-bottom: 1.875rem;
   border-bottom: 2px #cacaca; }
 
-a#logo div {
-  background-image: url("/images/header_logo_float.png");
-  width: 143px;
-  height: 59px; }
+a#logo {
+  display: inline-block; }
+  a#logo div {
+    background-image: url("/images/header_logo_float.png");
+    width: 143px;
+    height: 59px; }
 
 div#footer {
   margin-top: 1.875rem;
@@ -5093,4 +5095,6 @@ figcaption {
     .masonry .callout {
       margin-bottom: 0.9375rem;
       display: inline-block;
-      width: 100%; } }
+      width: 100%; }
+  .text-left-medium {
+    text-align: left; } }

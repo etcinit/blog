@@ -53,6 +53,8 @@ div#header {
 }
 
 a#logo {
+  display: inline-block;
+
   div {
     background-image: url('/images/header_logo_float.png');
     width: 143px;
@@ -108,5 +110,9 @@ figcaption {
         display: inline-block;
         width: 100%;
       }
+    }
+
+    .text-left-medium {
+      text-align: left;
     }
 }

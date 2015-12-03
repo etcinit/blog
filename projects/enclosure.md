@@ -10,4 +10,10 @@ IoC container for Node.
 
 <!--more-->
 
-An Inversion of Control (IoC) container implementation in JavaScript, with a module loading mechanism. Inspired by PHP frameworks and service oriented development.
+An Inversion of Control (IoC) container implementation in JavaScript, with a
+module loading mechanism. Inspired by PHP frameworks and service oriented
+development.
+
+**Projects using Enclosure:**
+
+- Legacy version of Phabulous: https://github.com/etcinit/phabulous/tree/legacy
