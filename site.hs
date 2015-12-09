@@ -1,5 +1,6 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
+
 import Control.Applicative
 import Control.Monad (liftM)
 import Control.Monad.IO.Class
@@ -48,6 +49,8 @@ main = hakyllWith hakyllConf $ do
   let writerOptions = defaultHakyllWriterOptions
         { writerHtml5 = True
         , writerHighlightStyle = haddock
+        , writerHTMLMathMethod = MathJax $ "https://cdn.mathjax.org/"
+            ++ "mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
         }
 
   let pandocHtml5Compiler =
