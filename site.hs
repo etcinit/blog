@@ -68,6 +68,10 @@ main = hakyllWith hakyllConf $ do
     route $ setExtension "ico"
     compile copyFileCompiler
 
+  match "keybase.txt" $ do
+    route $ setExtension "txt"
+    compile copyFileCompiler
+
   match "bower_components/font-awesome/fonts/*" $ do
     route $ gsubRoute "bower_components/font-awesome/" (const "")
     compile copyFileCompiler

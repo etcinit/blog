@@ -1,0 +1,76 @@
+==================================================================
+https://keybase.io/etcinit
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://chromabits.com
+  * I am etcinit (https://keybase.io/etcinit) on keybase.
+  * I have a public key with fingerprint 80A1 5003 7BBF 35DD 371D  6CB3 C82C CC4C 5CEA CF85
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "010119f89699ce112fe2208d8d035d4eeb746c57bb093ca2b406e94e79cd63a975850a",
+            "fingerprint": "80a150037bbf35dd371d6cb3c82ccc4c5ceacf85",
+            "host": "keybase.io",
+            "key_id": "c82ccc4c5ceacf85",
+            "kid": "010119f89699ce112fe2208d8d035d4eeb746c57bb093ca2b406e94e79cd63a975850a",
+            "uid": "50d136863e2ee1220972952fc59aec00",
+            "username": "etcinit"
+        },
+        "revoke": {
+            "sig_ids": [
+                "40a92e1cd010e7ad197ca4214827763d2e98df6e8e92d108b0a0e414a5e8b0b10f"
+            ]
+        },
+        "service": {
+            "hostname": "chromabits.com",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1451245201,
+    "expire_in": 157680000,
+    "prev": "0d0c8d4fe0657cd224933653f7bb590afe37601dc46219e0b5e6d71d19f1d9e7",
+    "seqno": 18,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.49
+Comment: https://keybase.io/crypto
+
+yMJuAnicrZJbaBVHGMfP0VhtvFQKSlvBlCEWq4cwM7szu3MQkWpRQauxVHqJHmdn
+vk2WeHZPd/ccIyHYB6FUMSgY8Uoph4r0msKpBQmaVJu2FNSIvgiWvrRgaKrgpVYs
+7Wywb310X3Zn5//9vv/8v7kwe2quOT+QPLNy49+/yPxPI/equc3vLT/Qi7xI70TF
+XtQNky/YriFJS92BRkWECSZE+K7gQigghPpAKXa1q7HFtA3gOTZXzPE8LCwlqWdj
+DsIGRyjNLSkc5jIsUQH5QdgJcSUOwtRgXSwJw9gydb7haMshmivPUi5VStmKKZDK
+d5kp7IqSrMKY82QCbUFk/plFadLe/+ifsO/qJI5hTSzucgsoADEk4VDBqK+YkKAw
+zoQJxKEsg1FDqoIwSFFfAcVQi7ohizUJOo3nBBXfQTaWggJR2rgER2oiHCVtSmyX
+Og63NAXhap+DC4Jqgl0PSww2sSUD8+0R7KMthm0a1gI1Cc9CetxcdcVRWXpBmrSp
+qGyMVeIojVS03ex1pWklKWa+0p2VTLwDvNJjTMkLQm2GZCpqECdBFKIiMUqVBhmX
+2IxQm1FMCgh6KkEMpSBTMIe72DxZH6hlyWusXG37gDlzlKbUFpbFmeWbrJnA0gfL
+4ZhoZXNKBGCPAddm/GZaRAtwUHawd8PIsF3jU3YapskulGk1BtT37XBHUy7fnHtq
+2pTs9uaan5773532m2fkvn6+unrJtb3ktROrFn92uXj6udHWh49+eHhhx/iX7RO8
+7eYHFztuvT1tzrkJNTz27NCLv+2So98ksDs8PbXl/Tvt7XevHdq2bSTp2VB7kB4/
+1TGlgT4qL9v6+lDPxNbz997ChapYNLZ+beuvA0PrGqWlAa42bfznzJ7v2s9e6s9v
+OHJ9xfX6Jn60/8ZXE2x/SxD+cbjx0sKBk6Otwzc/mVdesXsZLxx84dCaQfe+aqnv
+y4+fmUHUzOnzDx8/ePTuG2NDPz7Y9eGiL16+MmugqTzY2VFX1ZX1Vx79/HHvm5/2
+NtbtHTy2evPZ2/O/ry+4uGf5kb/WnLo6PvJ7SX3ed2vB/VfH+mcumfNna+Nfh9Nd
+uw==
+=Jtkv
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/etcinit
+
+==================================================================
+
