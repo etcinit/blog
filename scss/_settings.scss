@@ -94,7 +94,7 @@ $block-grid-max: 6;
 // ------------------
 
 $header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+$header-font-weight: $global-weight-bold;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-sizes: (
@@ -108,7 +108,7 @@ $header-sizes: (
   ),
   medium: (
     'h1': 48,
-    'h2': 40,
+    'h2': 34,
     'h3': 31,
     'h4': 25,
     'h5': 20,

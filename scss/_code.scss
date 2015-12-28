@@ -2,9 +2,10 @@ div.sourceCode {
   border: 1px $medium-gray solid;
   background-color: scale-color($medium-gray, $lightness: 85%);
   margin-bottom: rem-calc(10);
-  overflow-x: scroll;
+  overflow-x: auto;
 
   pre {
+    padding: rem-calc(10);
     border: none;
     background-color: transparent;
   }
@@ -12,6 +13,7 @@ div.sourceCode {
   code {
     border: none;
     background-color: transparent;
+    padding: 0;
   }
 }
 

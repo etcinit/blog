@@ -19,5 +19,8 @@
   },
   "author": "Eduardo Trujillo <ed@chromabits.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "bower": "~1.7.1"
+  }
 }
