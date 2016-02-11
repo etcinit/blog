@@ -4967,7 +4967,11 @@ table.hover tr:nth-of-type(even):hover {
 .fa-percent:before {
   content: ""; }
 
+code {
+  font-size: 0.8em; }
+
 div.sourceCode {
+  line-height: 1;
   border: 1px #cacaca solid;
   background-color: #f7f7f7;
   margin-bottom: 0.625rem;
@@ -4986,7 +4990,12 @@ table.sourceCode {
   table.sourceCode tbody {
     border: none; }
 
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre {
+table.sourceCode,
+tr.sourceCode,
+td.lineNumbers,
+td.sourceCode,
+table.sourceCode
+pre {
   margin: 0;
   padding: 0;
   border: 0;
@@ -4998,7 +5007,8 @@ td.lineNumbers {
   text-align: right;
   color: #AAAAAA;
   padding-right: 5px;
-  padding-left: 5px; }
+  padding-left: 5px;
+  line-height: 1.14; }
 
 td.sourceCode {
   padding-left: 0.625rem; }

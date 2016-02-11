@@ -59,6 +59,10 @@ main = hakyllWith hakyllConf $ do
   match "images/*" $ do
     route idRoute
     compile copyFileCompiler
+  
+  match "images/posts/*" $ do
+    route idRoute
+    compile copyFileCompiler
 
   match "css/app.css" $ do
     route $ setExtension "css"
