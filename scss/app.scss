@@ -104,6 +104,10 @@ figcaption {
   visibility: hidden;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 @include breakpoint(medium) {
     .masonry {
       column-count: 3;

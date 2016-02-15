@@ -65,12 +65,18 @@ domainMiddleware = forceDomain
 -- | Common headers middleware.
 headersMiddleware :: Middleware
 headersMiddleware = addHeaders
-  [ ("Strict-Transport-Security", "max-age=31536000; includeSubdomains")
-  , ("X-Frame-Options", "SAMEORIGIN")
+  [ ("X-Frame-Options", "SAMEORIGIN")
   , ("X-XSS-Protection", "1; mode=block")
   , ("X-Content-Type-Options", "nosniff")
   ]
 
+-- | Strict Transport Security middleware.
+stsHeadersMiddleware :: Middleware
+stsHeadersMiddleware = addHeaders
+  [("Strict-Transport-Security", "max-age=31536000; includeSubdomains")]
+
+-- | Content Security Policy middleware.
+-- Here we add the CSP header which includes the policies for this blog.
 cspHeadersMiddleware :: Middleware
 cspHeadersMiddleware = addHeaders
   [("Content-Security-Policy", TE.encodeUtf8 $ glue policies)]
@@ -158,6 +164,7 @@ main = do
                        $ cspHeadersMiddleware
                        $ headersMiddleware
                        $ domainMiddleware
+                       $ forceSSL
                        $ deindexifyMiddleware
                        $ gzipMiddleware
                        $ staticSite path 
@@ -167,7 +174,7 @@ main = do
   case fromMaybe "dev" stage of
     -- "Production"
     "live" -> do
-      forkIO $ listenTLS 443 liveMiddleware
+      forkIO $ listenTLS 443 $ stsHeadersMiddleware liveMiddleware
       listen 80 liveMiddleware
     "staging" -> do
       forkIO $ listenTLS 8443 liveMiddleware

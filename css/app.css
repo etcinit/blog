@@ -5061,6 +5061,9 @@ h1.cardboard {
   font-weight: bold;
   padding: 0;
   line-height: 3.75rem; }
+  @media screen and (max-width: 39.9375em) {
+    h1.cardboard {
+      line-height: 1.5rem; } }
   h1.cardboard span {
     transition: all 0.3s ease;
     position: relative;
@@ -5131,6 +5134,9 @@ figcaption {
 
 .wf-loading h1, .wf-loading p {
   visibility: hidden; }
+
+.inline-block {
+  display: inline-block; }
 
 @media screen and (min-width: 40em) {
   .masonry {

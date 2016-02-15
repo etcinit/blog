@@ -10,6 +10,10 @@ h1 {
     padding: rem-calc(0);
     line-height: rem-calc(60);
 
+    @include breakpoint(small down) {
+      line-height: 1.5rem;
+    }
+
     span {
       transition: all 0.3s ease;
       position: relative;
