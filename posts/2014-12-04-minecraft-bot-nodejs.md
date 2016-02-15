@@ -20,7 +20,7 @@ The final goal is to have the bot build a simple column it can climb at night so
 
 ### Demo:
 
-<iframe width="480" height="360" src="//www.youtube.com/embed/6Fk0kv0LM3g?rel=0" frameborder="0" allowfullscreen></iframe>
+<iframe width="480" height="360" src="https://www.youtube.com/embed/6Fk0kv0LM3g?rel=0" frameborder="0" allowfullscreen></iframe>
 
 ### Source code
 

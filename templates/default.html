@@ -12,8 +12,7 @@
     $endif$
     <link rel="stylesheet" type="text/css" href="/css/app.css" />
 
-    <script src="https://use.typekit.net/voy2fek.js"></script>
-    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script>document.documentElement.className += ' wf-loading';</script>
 
     <meta property="fb:admins" content="etcinit"/>
   </head>
@@ -24,7 +23,7 @@
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) return;
     js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=332765426823646";
+    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=332765426823646";
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));
     </script>
@@ -66,19 +65,21 @@
       </div>
     </div>
 
+    <script src="https://use.typekit.net/voy2fek.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
+    <script async type="text/javascript"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
     <script>
       var _gaq=[['_setAccount','$gaId$'],['_trackPageview']];
       (function(d,t){
         var g=d.createElement(t),
         s=d.getElementsByTagName(t)[0];
-        g.src=('https:'==location.protocol?'//ssl':'//www')+
-          '.google-analytics.com/ga.js';
+        g.src='https://ssl.google-analytics.com/ga.js';
         s.parentNode.insertBefore(g,s)
       }(document,'script'));
-    </script>
-
-    <script type="text/javascript"
-        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
   </body>
 </html>

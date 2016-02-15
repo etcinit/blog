@@ -1,0 +1,22 @@
+body {
+    background-image: url('background.png');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-color: #1A1A1A;
+    background-size: 1920px;
+}
+
+.logo {
+    width: 250px;
+    height: 90px;
+    background-image: url('logo.png');
+    background-size: 250px 90px;
+    display: block;
+    margin-bottom: 20px;
+}
+
+#color_bar {
+    background-color: #ABC837;
+    background-image: url('colorbar.png');
+    background-size: 300px;
+}

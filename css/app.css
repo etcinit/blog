@@ -5129,6 +5129,9 @@ figcaption {
   figcaption::before {
     content: 'fig. '; }
 
+.wf-loading h1, .wf-loading p {
+  visibility: hidden; }
+
 @media screen and (min-width: 40em) {
   .masonry {
     -webkit-column-count: 3;

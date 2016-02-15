@@ -19,7 +19,7 @@ Sadly, __the general consensus in some cases still seems to be that applications
 In addition to the regular need to improve software, this situation has pushed the PHP community to improve their practices and have a modern development workflow. Sort of like a __?We can do modern development too?__, which shows that the community is resilient and that it is open to major changes.
 
 <blockquote class="twitter-tweet" lang="en"><p>Chris Spruck (<a href="https://twitter.com/cspruck">@cspruck</a>) delivers the announcements to a packed house at <a href="https://twitter.com/AtlantaPHP">@AtlantaPHP</a> earlier tonight. <a href="http://t.co/yleFZQwh9u">pic.twitter.com/yleFZQwh9u</a></p>&mdash; Ben Ramsey (@ramsey) <a href="https://twitter.com/ramsey/statuses/441803542891081729">March 7, 2014</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 A few days ago I attended an [AtlantaPHP](http://atlantaphp.org) talk on modern PHP development, by [Ben Ramsey (@ramsey)](https://twitter.com/ramsey), and some of the ideas that got my attention were that the PHP community is very good at ?borrowing? concepts and including them into the language and frameworks, and that PHP development is not only about the language itself, but the tools around it and they way applications are built.
 
@@ -33,7 +33,7 @@ Additionally, just because somebody writes an application in PHP it doesn't mean
 
 ## A modern PHP framework
 
-![Logo](http://i.imgur.com/p3m7kce.png "Logo")
+![Logo](https://i.imgur.com/p3m7kce.png "Logo")
 
 The other big thing in PHP right now are frameworks. There are a bunch of them, and thanks to standards and Composer they are all cooperating together. My favorite one so far is Laravel.
 

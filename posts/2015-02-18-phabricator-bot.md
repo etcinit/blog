@@ -8,7 +8,7 @@ author: Eduardo Trujillo
 
 As the result of a short hacking session, I built a simple Node.js bot that forwards items from the Phabricator news feed into a Slack channel:
 
-![Example](http://i.imgur.com/128Gkjw.png)
+![Example](https://i.imgur.com/128Gkjw.png)
 
 Phabricator supports calling POST endpoints whenever there is a new feed item (setup through the `feed.http-hooks`). However, we can't just forward these directly to Slack. The main task of the bot is to take these requests from Phabricator, fetch some extra information using Conduit and the calling another webhook to deliver the message to a Slack channel.
 

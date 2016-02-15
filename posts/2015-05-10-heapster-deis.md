@@ -6,7 +6,7 @@ legacy: heapster-and-deis-so-hip
 author: Eduardo Trujillo
 ---
 
-![Metrics in Grafana](//i.imgur.com/uUnd1oq.png)
+![Metrics in Grafana](https://i.imgur.com/uUnd1oq.png)
 
 I've been playing with Deis, a Docker orchestration platform on AWS for the past
 few days. In fact, I got some services running on it. I have found it to be very

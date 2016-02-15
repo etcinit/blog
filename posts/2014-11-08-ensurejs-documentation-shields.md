@@ -11,7 +11,7 @@ It's been a while since I worked on Ensure.js, but I finally got around polishin
 
 ## New documentation
 
-![Documentation screenshot](http://i.imgur.com/GmUC1PE.png)
+![Documentation screenshot](https://i.imgur.com/GmUC1PE.png)
 
 Most of the library is now documented using JSdoc. Most functions should have explanations of their behavior and some of them have usage examples.
 

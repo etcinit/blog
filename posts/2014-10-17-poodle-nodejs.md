@@ -5,7 +5,7 @@ uuid: bfa447a6-0b2b-44e2-b693-b042f209d8cf
 legacy: poodle-and-nodejs
 ---
 
-![SSL 3 is broken](http://assets.chromabits.com/posts/POODLE.png)
+![SSL 3 is broken](/images/posts/POODLE.png)
 
 Earlier this week Google released details on a new security flaw that some of their researchers found in SSL version 3.0.
 

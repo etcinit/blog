@@ -15,4 +15,4 @@ I use the following SCSS to style checkbox input elements. The original code was
 
 The final result should look something like this:
 
-<img src="http://assets.chromabits.com/posts/foundation-checkbox.png" style="max-width: 200px; margin-left: auto; margin-right: auto">
+<img src="/images/posts/foundation-checkbox.png" style="max-width: 200px; margin-left: auto; margin-right: auto">

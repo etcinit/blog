@@ -13,7 +13,7 @@ The Snake-in-the-box problem begins with a n dimensional hypercube. It consists 
 
 Example 4-dimensional hypercube:
 
-![](http://assets.chromabits.com/posts/hypercube.png)
+![](/images/posts/hypercube.png)
 
 A nice property about each node in a n-dimension cube is that they can be represented in n-digit binary numbers, and the difference between neighbors is one bit flip (In a 4-dimension hypercube, `0000` and `0001` are neighbors).
 
@@ -55,7 +55,7 @@ This does not necessarily yield the correct solution, but it allows us to take a
 
 As a nice added extra, I was able to use a Symfony component for displaying information about the progress of the program, including an estimate of how much time it will take to go through all the iterations:
 
-![](http://assets.chromabits.com/posts/snake3.png)
+![](/images/posts/snake3.png)
 
 ## Find the zebra
 
