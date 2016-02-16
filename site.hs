@@ -25,7 +25,10 @@ data SiteConfiguration = SiteConfiguration
 hakyllConf :: Configuration
 hakyllConf = defaultConfiguration
   { deployCommand =
-      "rsync -ave 'ssh' _site/* chromabits.com:/www/chromabits.com"
+      "rsync -ave 'ssh' _site/* 45.79.220.75:/var/www/chromabits " ++
+      "&& rsync -ave 'ssh' " ++
+      ".stack-work/install/x86_64-linux/lts-5.2/7.10.3/bin/server " ++
+      "45.79.220.75:/opt/chromabits"
   }
 
 siteConf :: SiteConfiguration
@@ -77,6 +80,10 @@ main = hakyllWith hakyllConf $ do
     compile copyFileCompiler
 
   match "keybase.txt" $ do
+    route $ setExtension "txt"
+    compile copyFileCompiler
+
+  match "robots.txt" $ do
     route $ setExtension "txt"
     compile copyFileCompiler
 

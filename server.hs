@@ -4,6 +4,7 @@ import           Control.Concurrent                   (forkIO)
 import qualified Data.ByteString                      as BS (ByteString, pack)
 import           Data.Maybe                           (fromMaybe, mapMaybe)
 import           Data.Monoid                          ((<>))
+import           Data.Streaming.Network               (HostPreference)
 import           Data.String                          (fromString)
 import qualified Data.Text                            as T (Text, concat, pack)
 import qualified Data.Text.Encoding                   as TE (encodeUtf8)
@@ -15,8 +16,8 @@ import           Network.Wai.Application.Static       (defaultWebAppSettings,
                                                        ssIndices, ssMaxAge,
                                                        ssRedirectToIndex,
                                                        staticApp)
-import           Network.Wai.Handler.Warp             (defaultSettings, run,
-                                                       setPort)
+import           Network.Wai.Handler.Warp             (defaultSettings, runSettings,
+                                                       setHost, setPort)
 import           Network.Wai.Handler.WarpTLS          (runTLS,
                                                        tlsSettingsChain)
 import           Network.Wai.Middleware.AddHeaders    (addHeaders)
@@ -94,7 +95,7 @@ cspHeadersMiddleware = addHeaders
                   <> " https://cdn.mathjax.org https://connect.facebook.net"
                   <> " https://*.twitter.com https://cdn.syndication.twimg.com"
                   <> " https://gist.github.com"
-                  <> " https://*.google-analytics.com/ga.js"
+                  <> " https://*.google-analytics.com"
                , "img-src 'self' https: data: platform.twitter.com"
                , "font-src 'self' data: https://use.typekit.net"
                  <> " https://cdn.mathjax.org"
@@ -131,10 +132,12 @@ deindexifyMiddleware app req sendResponse =
 -- debugging purposes.
 listen :: Int -> Application -> IO ()
 listen port app = do
+  let settings = setHost "*6" (setPort port defaultSettings)
+
   -- Inform which port we will be listening on.
   putStrLn $ "Listening on port " ++ show port ++ "..."
   -- Serve the WAI app using Warp
-  run port app
+  runSettings settings app
 
 -- | Serves a WAI Application on the specified port.
 -- The target port is printed to stdout before hand, which can be useful for
@@ -149,7 +152,7 @@ listenTLS port app = do
                       (fromMaybe "cert.pem" certPath)
                       [fromMaybe "fullchain.pem" chainPath]
                       (fromMaybe "privkey.pem" keyPath)
-  let settings = setPort port defaultSettings
+  let settings = setHost "*6" (setPort port defaultSettings)
 
   -- Inform which port we will be listening on.
   putStrLn $ "Listening on port " ++ show port ++ " (TLS)..."
