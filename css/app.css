@@ -4968,12 +4968,14 @@ table.hover tr:nth-of-type(even):hover {
   content: ""; }
 
 code {
-  font-size: 0.8em; }
+  font-size: 0.8em;
+  background-color: #fafafa;
+  border: 1px solid #eee; }
 
 div.sourceCode {
   line-height: 1;
-  border: 1px #cacaca solid;
-  background-color: #f7f7f7;
+  border: 1px solid #eee;
+  background-color: #fafafa;
   margin-bottom: 0.625rem;
   overflow-x: auto; }
   div.sourceCode pre {
@@ -5152,3 +5154,6 @@ figcaption {
       width: 100%; }
   .text-left-medium {
     text-align: left; } }
+
+figure {
+  text-align: center; }
