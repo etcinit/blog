@@ -13,6 +13,8 @@ Working with Haskell required some re-thinking on how we do certain parts of
 our workflow, but it also led to a much improved image size, with some extra
 room for improvement.
 
+![](/images/posts/haskell-containers.png)
+
 Unlike PHP or JavaScript, Haskell is a compiled language, meaning that some of
 previous approaches we were using for building Docker images did not port that
 well.
@@ -39,10 +41,15 @@ cases.
 
 For Haskell projects, though, things are bit different, and not in a bad way:
 
-The community has made an excellent build tool called `stack`. Stack takes care
-of mostly everything setup-related: Installing GHC, pulling dependencies,
-building, testing, coverage reports, documentation. When paired with Nix, it 
-can even pull non-Haskell dependencies for reproducible builds.
+The community has made an excellent build tool called [Stack][3]. `stack` takes
+care of mostly everything related to setting up your project: Installing GHC,
+pulling dependencies, building, testing, coverage reports, documentation. When
+paired with Nix, it can even pull non-Haskell dependencies for reproducible
+builds.
+
+<div class="callout-quote">
+Stack takes care of mostly everything related to setting up your project.
+</div>
 
 If we try to do a hybrid image approach like above using Stack, we mainly have
 to do the following on a Dockerfile:
@@ -57,7 +64,7 @@ This works, but it is extremely slow and the resulting images are huge
 
 On every Docker build, `stack` would have to download and install GHC, and then
 proceed to download and compile every dependency of the project, which tended
-to a good 30 minutes on a Quay.io worker node.
+to a good 30 minutes on a [Quay.io][2] worker node.
 
 When developing locally, you only have to go through this process every now and
 then because most of it is cached in directories such as `~/.stack` and
@@ -93,6 +100,11 @@ The main difficulty with this process is that Haskell programs are not built
 statically by default, meaning that you have to identify all the libraries the
 binary is linked against and include them in the final runtime image.
 
+<div class="callout-quote">
+The main difficulty with this process is that Haskell programs are not built
+statically...
+</div>
+
 In order to keep things simple, I decided to stick to using a base image, which
 we could use to pull in any dependencies we don't have, like `libcurl-dev`.
 
@@ -125,7 +137,7 @@ if [ $TRAVIS_PULL_REQUEST = 'false' ]; then
 
   # If this commit has a tag, use on the registry too.
   if ! test -z $TRAVIS_TAG; then
-    docker tag horizon quay.io/myorg/myapp:${TRAVIS_TAG} \
+    docker tag myapp quay.io/myorg/myapp:${TRAVIS_TAG} \
       && docker push quay.io/myorg/myapp:${TRAVIS_TAG};
   fi
 fi
@@ -139,7 +151,11 @@ using a smaller base image, and automate the deployment of development
 and staging environments by having Travis CI notify a scheduler that a new
 image has been built.
 
-I'm including some of my scripts on a GitHub Gist for reference. You will most
-likely have to modify them to meet your needs.
+I'm including some of my scripts and an example Dockerfile on a
+[GitHub Gist][4] for reference. You will most likely have to modify them to
+meet your needs.
 
 [1]: https://www.fpcomplete.com/blog/2015/05/haskell-web-server-in-5mb
+[2]: https://quay.io
+[3]: http://haskellstack.org/
+[4]: https://gist.github.com/etcinit/d484b72de336836a956eb51b3da231ad
