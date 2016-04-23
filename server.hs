@@ -1,193 +1,93 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-import           Control.Concurrent                   (forkIO)
-import qualified Data.ByteString                      as BS (ByteString, pack)
-import           Data.Maybe                           (fromMaybe, mapMaybe)
-import           Data.Monoid                          ((<>))
-import           Data.Streaming.Network               (HostPreference)
-import           Data.String                          (fromString)
-import qualified Data.Text                            as T (Text, concat, pack)
-import qualified Data.Text.Encoding                   as TE (encodeUtf8)
-import           Network.Wai                          (Application, Middleware,
-                                                       pathInfo)
-import           Network.Wai.Application.Static       (defaultWebAppSettings,
-                                                       ss404Handler,
-                                                       ssAddTrailingSlash,
-                                                       ssIndices, ssMaxAge,
-                                                       ssRedirectToIndex,
-                                                       staticApp)
-import           Network.Wai.Handler.Warp             (defaultSettings, runSettings,
-                                                       setHost, setPort)
-import           Network.Wai.Handler.WarpTLS          (runTLS,
-                                                       tlsSettingsChain)
-import           Network.Wai.Middleware.AddHeaders    (addHeaders)
-import           Network.Wai.Middleware.ForceDomain   (forceDomain)
-import           Network.Wai.Middleware.ForceSSL      (forceSSL)
-import           Network.Wai.Middleware.Gzip          (def, gzip)
-import           Network.Wai.Middleware.RequestLogger (logStdout)
-import           Network.Wai.Middleware.Vhost         (redirectTo)
-import           Safe                                 (lastMay)
-import           System.Environment                   (lookupEnv)
-import           WaiAppStatic.Types                   (MaxAge (MaxAgeSeconds),
-                                                       toPiece)
+import Control.Lens
+import Data.Monoid ((<>))
+import Data.Maybe (fromMaybe)
+import System.Environment (lookupEnv)
+import Hakyll.Serve.Main (TLSConfiguration(..), Stage(..),
+  defaultServeConfiguration, port, stage, middleware, stagingTransform,
+  tlsConfiguration, tlsPort, prodTransform, path, serve)
+import Hakyll.Serve.Middleware (Directive(..), (<#>), gzipMiddleware,
+  domainMiddleware, securityHeadersMiddleware, stsHeadersMiddleware,
+  cspHeadersMiddleware, deindexifyMiddleware, forceSSLMiddleware,
+  loggerMiddleware)
+import Hakyll.Serve.Listeners (TLSSettings, tlsSettingsChain)
 
--- | The core application.
--- It serves files from `_site` whic is where Hakyll will place the generated
--- site.
-staticSite :: Maybe String -> Application
-staticSite path = staticApp
-              (defaultWebAppSettings $ fromString $ fromMaybe "_site" path)
-              { ssIndices  = mapMaybe (toPiece . T.pack) ["index.html"]
-              , ssRedirectToIndex = False
-              , ssAddTrailingSlash = True
-              , ss404Handler = Just redirectApp
-              , ssMaxAge = MaxAgeSeconds 3600
-              }
+directives :: [Directive]
+directives
+  = [ DefaultSrc ["'self'"]
+    , ScriptSrc [
+        "'self'", "'unsafe-inline'", "https://use.typekit.net",
+        "https://cdn.mathkax.org", "https://connect.facebook.net",
+        "https://*.twitter.com", "https://cdn.syndication.twimg.com",
+        "https://gist.github.com"
+      ]
+    , ImgSrc ["'self'", "https:", "data:", "platform.twitter.com"]
+    , FontSrc [
+        "'self'", "data:", "https://use.typekit.net", "https://cdn.mathjax.org"
+      ]
+    , StyleSrc [
+        "'self'", "'unsafe-inline'", "https://use.typekit.net",
+        "platform.twitter.com", "https://assets-cdn.github.com"
+      ]
+    , FrameSrc [
+        "https://www.youtube.com", "https://www.slideshare.net",
+        "staticxx.facebook.com", "www.facebook.com"
+      ]
+    ]
 
--- | 404 handler.
--- We will redirect users to a 404 page if we can't locate the resource they
--- are looking for.
-redirectApp :: Application
-redirectApp req sendResponse = sendResponse $ redirectTo "/"
-
--- | Gzip compression middleware.
-gzipMiddleware :: Middleware
-gzipMiddleware = gzip def
-
--- | Domain redirection middleware.
--- When the site is live, we want to redirect users to the right domain name
--- regarles of whether they arrive from a www. domain, the server's IP address
--- or a spoof domain which is pointing to this server.
-domainMiddleware :: Middleware
-domainMiddleware = forceDomain
-                    (\domain -> case domain of
-                                 "localhost" -> Nothing
-                                 "chromabits.com" -> Nothing
-                                 _ -> Just "chromabits.com")
-
--- | Common headers middleware.
-headersMiddleware :: Middleware
-headersMiddleware = addHeaders
-  [ ("X-Frame-Options", "SAMEORIGIN")
-  , ("X-XSS-Protection", "1; mode=block")
-  , ("X-Content-Type-Options", "nosniff")
-  ]
-
--- | Strict Transport Security middleware.
-stsHeadersMiddleware :: Middleware
-stsHeadersMiddleware = addHeaders
-  [("Strict-Transport-Security", "max-age=31536000; includeSubdomains")]
-
--- | Content Security Policy middleware.
--- Here we add the CSP header which includes the policies for this blog.
-cspHeadersMiddleware :: Middleware
-cspHeadersMiddleware = addHeaders
-  [("Content-Security-Policy", TE.encodeUtf8 $ glue policies)]
-  where
-    glue :: [T.Text] -> T.Text
-    glue [] = "default-src 'none'"
-    glue [x] = x
-    glue xs = T.concat $ map (\x -> T.concat [x, "; "]) (init xs) ++ [last xs]
-
-    policies :: [T.Text]
-    policies = [ "default-src 'self'"
-               , "script-src 'self' 'unsafe-inline' https://use.typekit.net"
-                  <> " https://cdn.mathjax.org https://connect.facebook.net"
-                  <> " https://*.twitter.com https://cdn.syndication.twimg.com"
-                  <> " https://gist.github.com"
-                  <> " https://*.google-analytics.com"
-               , "img-src 'self' https: data: platform.twitter.com"
-               , "font-src 'self' data: https://use.typekit.net"
-                 <> " https://cdn.mathjax.org"
-               , "style-src 'self' 'unsafe-inline' https://use.typekit.net"
-                 <> " platform.twitter.com https://assets-cdn.github.com"
-               , "frame-src https://www.youtube.com https://www.slideshare.net"
-                 <> " staticxx.facebook.com www.facebook.com"
-               ]
-
--- | De-indefify middleware.
--- Redirects any path ending in `/index.html` to just `/`.
-deindexifyMiddleware :: Middleware
-deindexifyMiddleware app req sendResponse =
-  if lastMay (pathInfo req) == Just "index.html"
-     then sendResponse $ redirectTo newPath
-     else app req sendResponse
-      where
-        newPath :: BS.ByteString
-        newPath = TE.encodeUtf8 $ processPath oldPath
-
-        processPath :: [T.Text] -> T.Text
-        processPath xs = case xs of
-                           [] -> "/"
-                           _ -> T.concat $ map prefixSlash xs
-
-        oldPath :: [T.Text]
-        oldPath = init $ pathInfo req
-
-        prefixSlash :: T.Text -> T.Text
-        prefixSlash x = T.concat ["/", x]
-
--- | Serves a WAI Application on the specified port.
--- The target port is printed to stdout before hand, which can be useful for
--- debugging purposes.
-listen :: Int -> Application -> IO ()
-listen port app = do
-  let settings = setHost "*6" (setPort port defaultSettings)
-
-  -- Inform which port we will be listening on.
-  putStrLn $ "Listening on port " ++ show port ++ "..."
-  -- Serve the WAI app using Warp
-  runSettings settings app
-
--- | Serves a WAI Application on the specified port.
--- The target port is printed to stdout before hand, which can be useful for
--- debugging purposes.
-listenTLS :: Int -> Application -> IO ()
-listenTLS port app = do
+getTLSSettings :: IO TLSSettings
+getTLSSettings = do
   certPath <- lookupEnv "BLOG_TLS_CERT"
   chainPath <- lookupEnv "BLOG_TLS_CHAIN"
   keyPath <- lookupEnv "BLOG_TLS_KEY"
 
-  let tlsSettings = tlsSettingsChain
-                      (fromMaybe "cert.pem" certPath)
-                      [fromMaybe "fullchain.pem" chainPath]
-                      (fromMaybe "privkey.pem" keyPath)
-  let settings = setHost "*6" (setPort port defaultSettings)
-
-  -- Inform which port we will be listening on.
-  putStrLn $ "Listening on port " ++ show port ++ " (TLS)..."
-  -- Serve the WAI app using Warp
-  runTLS tlsSettings settings app
+  return $ tlsSettingsChain
+            (fromMaybe "cert.pem" certPath)
+            [fromMaybe "fullchain.pem" chainPath]
+            (fromMaybe "privkey.pem" keyPath)
 
 -- | The entry point of the server application.
 main :: IO ()
 main = do
-  stage <- lookupEnv "BLOG_STAGE"
-  path <- lookupEnv "BLOG_PATH"
+  rawStage <- lookupEnv "BLOG_STAGE"
+  rawPath <- lookupEnv "BLOG_PATH"
 
-  let liveMiddleware = logStdout
-                       $ cspHeadersMiddleware
-                       $ headersMiddleware
-                       $ domainMiddleware
-                       $ forceSSL
-                       $ deindexifyMiddleware
-                       $ gzipMiddleware
-                       $ staticSite path
+  tlsSettings <- getTLSSettings 
 
-  -- Depending on the stage we will choose a different set of middleware to
-  -- apply to the application.
-  case fromMaybe "dev" stage of
-    -- "Production"
-    "live" -> do
-      forkIO $ listenTLS 443 $ stsHeadersMiddleware liveMiddleware
-      listen 80 liveMiddleware
-    "staging" -> do
-      forkIO $ listenTLS 8443 liveMiddleware
-      listen 8080 liveMiddleware
-    -- "Development"
-    _ -> listen 9090 (logStdout
-                     $ headersMiddleware
-                     $ deindexifyMiddleware
-                     $ gzipMiddleware
-                     $ staticSite path
-                     )
+  let liveMiddleware
+        = mempty
+        <#> loggerMiddleware
+        <#> cspHeadersMiddleware directives
+        <#> securityHeadersMiddleware
+        <#> domainMiddleware "chromabits"
+        <#> forceSSLMiddleware
+        <#> deindexifyMiddleware
+        <#> gzipMiddleware
+  let prodMiddlware = (mempty <#> stsHeadersMiddleware) <> liveMiddleware
+
+  let tlsConf = TLSConfiguration (const liveMiddleware) tlsSettings 8443
+
+  let serveConf
+        = defaultServeConfiguration
+        & stage .~ case rawStage of
+          Just "live" -> Production
+          Just "staging" -> Staging
+          _ -> Development
+        & port .~ 9090
+        & middleware .~ mempty
+          <#> loggerMiddleware
+          <#> securityHeadersMiddleware
+          <#> deindexifyMiddleware
+          <#> gzipMiddleware
+        & path .~ rawPath
+        & stagingTransform .~
+          ((set tlsConfiguration $ Just tlsConf)
+          . (set middleware liveMiddleware)
+          . (set port 8080))
+        & prodTransform .~
+          ((set tlsConfiguration $ Just (tlsConf & tlsPort .~ 443))
+          . (set middleware prodMiddlware)
+          . (set port 80))
+
+  serve serveConf

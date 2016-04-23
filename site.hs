@@ -3,16 +3,17 @@
 
 import Control.Applicative
 import Control.Monad (liftM)
-import Control.Monad.IO.Class
+import Control.Lens ((&), (.~))
 import qualified Data.Map as M
 import Data.Maybe (fromMaybe)
-import Data.Monoid (mappend)
 import Data.List (intersperse, isSuffixOf)
 import Data.List.Split (splitOn)
 import Hakyll
+import Hakyll.Serve (ServeConfiguration, defaultServeConfiguration,
+  hakyllConfiguration, hakyllServeWith)
 import Text.Highlighting.Kate.Styles (haddock)
 import Text.Pandoc.Options
-import System.FilePath (combine, splitExtension, takeFileName)
+import System.FilePath (splitExtension)
 import System.Random (randomRIO)
 
 --------------------------------------------------------------------------------
@@ -20,6 +21,9 @@ data SiteConfiguration = SiteConfiguration
   { siteRoot :: String
   , siteGaId :: String
   }
+
+serveConf :: ServeConfiguration
+serveConf = defaultServeConfiguration & hakyllConfiguration .~ hakyllConf
 
 --------------------------------------------------------------------------------
 hakyllConf :: Configuration
@@ -37,18 +41,18 @@ siteConf = SiteConfiguration
   , siteGaId = "UA-47694260-1"
   }
 
-feedConf :: String -> FeedConfiguration
-feedConf title = FeedConfiguration
-  { feedTitle = "Chromabits: " ++ title
-  , feedDescription = "Personal blog"
-  , feedAuthorName = "Eduardo Trujillo"
-  , feedAuthorEmail = "ed@chromabits.com"
-  , feedRoot = "https://chromabits.com"
-  }
+-- feedConf :: String -> FeedConfiguration
+-- feedConf title = FeedConfiguration
+--  { feedTitle = "Chromabits: " ++ title
+--  , feedDescription = "Personal blog"
+--  , feedAuthorName = "Eduardo Trujillo"
+--  , feedAuthorEmail = "ed@chromabits.com"
+--  , feedRoot = "https://chromabits.com"
+--  }
 
 --------------------------------------------------------------------------------
 main :: IO ()
-main = hakyllWith hakyllConf $ do
+main = hakyllServeWith serveConf $ do
   let writerOptions = defaultHakyllWriterOptions
         { writerHtml5 = True
         , writerHighlightStyle = haddock
@@ -159,7 +163,7 @@ main = hakyllWith hakyllConf $ do
       teaser <- loadAndApplyTemplate "templates/project-teaser.html"
         siteCtx $ dropMore compiled
 
-      saveSnapshot "teaser" teaser
+      _ <- saveSnapshot "teaser" teaser
 
       saveSnapshot "content" full
         >>= loadAndApplyTemplate "templates/default.html" siteCtx

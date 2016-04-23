@@ -17,7 +17,9 @@ executable blog
   default-language:    Haskell2010
   ghc-options:         -threaded
   build-depends:       base == 4.*,
+                       lens,
                        hakyll == 4.7.*,
+                       hakyll-serve,
                        filepath == 1.4.*,
                        split == 0.2.*,
                        random,
@@ -33,10 +35,12 @@ executable server
   build-depends:       base == 4.*,
                        safe == 0.3.*,
                        text,
+                       lens,
                        bytestring == 0.10.*,
+                       hakyll-serve,
                        warp == 3.*,
                        warp-tls == 3.*,
                        wai == 3.*,
-                       wai-extra <= 3.0.14,
+                       wai-extra >= 3.0.14,
                        wai-app-static == 3.*,
                        streaming-commons == 0.1.*
