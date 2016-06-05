@@ -6,7 +6,9 @@ resolver: lts-5.11
 # Local packages, usually specified by relative directory name
 packages:
 - '.'
-- '/home/etcinit/src/github.com/etcinit/hakyll-serve'
+- location:
+    git: https://phabricator.chromabits.com/diffusion/HAKS/hakyll-serve.git
+    commit: e4bbdcb2124fc0f44d4a5a8e9dea0fbcdb612267
 
 # Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
 extra-deps: []

@@ -1,5 +1,8 @@
 var gulp = require('gulp');
+var postcss = require('gulp-postcss');
 var $ = require('gulp-load-plugins')();
+var autoprefixer = require('autoprefixer');
+var cssnano = require('cssnano');
 
 var sassPaths = [
   'bower_components/foundation-sites/scss',
@@ -9,14 +12,17 @@ var sassPaths = [
 ];
 
 gulp.task('sass', function() {
+  var processors = [
+    autoprefixer({browsers: ['last 2 version', 'ie >= 9']}),
+    cssnano(),
+  ];
+
   return gulp.src('scss/app.scss')
     .pipe($.sass({
       includePaths: sassPaths
     })
-      .on('error', $.sass.logError))
-    .pipe($.autoprefixer({
-      browsers: ['last 2 versions', 'ie >= 9']
-    }))
+    .on('error', $.sass.logError))
+    .pipe(postcss(processors))
     .pipe(gulp.dest('css'));
 });
 

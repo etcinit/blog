@@ -36,9 +36,9 @@ of the schedule I'm unsure of.
 2. Keynote
 3. Agda from Nothing *OR* Introduction to Non-Violent Communication
 4. **Lunch**
-5. Make Your Own List Interpreter (Part 1)
+5. Make Your Own Lisp Interpreter (Part 1)
 6. **Afternoon Refresh**
-7. Make Your Own List Interpreter (Part 2)
+7. Make Your Own Lisp Interpreter (Part 2)
 8. Closing Remarks
 
 #### Friday
