@@ -5,9 +5,9 @@ author: Eduardo Trujillo
 uuid: 60456ddb-e31d-4ae1-8e44-787c7da1e804
 ---
 
-On a previous post, I covered how to setup continuous integration for Haskell
-projects using a combination of Stack, Travis CI, and Docker. But what about
-documentation?
+On a [previous post][5], I covered how to setup continuous integration for
+Haskell projects using a combination of Stack, Travis CI, and Docker. But what
+about documentation?
 
 ![Sweet auto-generated docs!](/images/posts/haddocks.png)
 
@@ -80,3 +80,4 @@ documentation is available as a [GitHub pages website][3] and
 [2]: https://travis-ci.org/etcinit/craze
 [3]: https://etcinit.github.io/craze
 [4]: https://etcinit.github.io/craze/hpc
+[5]: /posts/2016/04/20/haskell-travis-docker/
