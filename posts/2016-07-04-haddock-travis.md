@@ -24,10 +24,15 @@ and `--coverage` respectively.
 ```bash
 #!/bin/bash
 
+# .travis/assemble-docs.sh
+#
 # Make sure you install the Travis CLI and encrypt a GitHub API token with
 # access to the repository: `travis encrypt GH_TOKEN=xxxxxxx --add`.
+#
+# This script is meant to be run during the `after_success` build step.
 
 # Copy haddocks to a separate directory.
+mkdir -p ../gh-pages
 cp -R "$(stack path --local-doc-root)" ../gh-pages
 cp -R "$(stack path --local-hpc-root)" ../gh-pages
 cd ../gh-pages
