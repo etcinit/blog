@@ -94,8 +94,7 @@ main = hakyllServeWith serveConf $ do
   matchMetadata "posts/*" (HM.member "legacy") $ version "legacy" $ do
     route $ legacyRoute `composeRoutes` setExtension "html"
     compile $ do
-      color <- unsafeCompiler (randomRIO (0, length colors - 1)
-        >>= \selection -> pure (colors !! selection))
+      color <- unsafeCompiler pickColor
       identifier <- getUnderlying
 
       let ctx
@@ -117,8 +116,7 @@ main = hakyllServeWith serveConf $ do
   match "posts/*" $ do
     route $ directorizeDate "/index" `composeRoutes` setExtension "html"
     compile $ do
-      color <- unsafeCompiler (randomRIO (0, length colors - 1)
-        >>= \selection -> pure (colors !! selection))
+      color <- unsafeCompiler pickColor
       identifier <- getUnderlying
 
       let ctx
@@ -216,31 +214,27 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
-    paginateRules pag $ \pageNum pattern -> do
-      route idRoute
-      compile $ do
-        tpl <- loadBody "templates/post-item-full.html"
+  paginateRules pag $ \pageNum patterns -> do
+    route idRoute
+    compile $ do
+      template <- loadBody "templates/post-item-full.html"
 
-        let paginateCtx = paginateContext pag pageNum
-        let ctx
-              = paginateCtx
-              <> constField "title" ("Page " ++ show pageNum)
-              <> indexCtx
+      let context
+            = paginateContext pag pageNum
+            <> constField "title" ("Page " <> show pageNum)
+            <> indexCtx
+          bodyContext = context <> bodyField "posts"
 
-        loadAllSnapshots pattern "content"
-          >>= recentFirst
-          >>= applyTemplateList tpl ctx
-          >>= makeItem
-          >>= loadAndApplyTemplate
-            "templates/paginated.html"
-            (ctx <> bodyField "posts")
-          >>= loadAndApplyTemplate
-            "templates/default.html"
-            (ctx <> bodyField "posts")
-          >>= relativizeUrls
-          >>= deIndexUrls
+      loadAllSnapshots patterns "content"
+        >>= recentFirst
+        >>= applyTemplateList template context
+        >>= makeItem
+        >>= loadAndApplyTemplate "templates/paginated.html" bodyContext
+        >>= loadAndApplyTemplate "templates/default.html" bodyContext
+        >>= relativizeUrls
+        >>= deIndexUrls
 
-    match "templates/*" $ compile templateCompiler
+  match "templates/*" $ compile templateCompiler
 
 -- CONTEXTS -------------------------------------------------------------------
 
@@ -272,7 +266,7 @@ directorizeDate postfix = customRoute (directorize . toFilePath)
       (date, rest) = splitAt 3 $ splitOn "-" path
 
 indexify :: Routes
-indexify = customRoute (\i -> addIndex $ toFilePath i)
+indexify = customRoute (addIndex . toFilePath)
   where
     addIndex path = original ++ "/index" ++ ext
      where
@@ -302,12 +296,17 @@ matchAndCopy (path, extension) = match path $ do
 -- IDENTIFIER HELPERS ---------------------------------------------------------
 
 grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
-grouper ids = (liftM (paginateEvery 3) . sortRecentFirst) ids
+grouper = fmap (paginateEvery 3) . sortRecentFirst
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ "/index.html"
 
 -- UTILITIES ------------------------------------------------------------------
+
+pickColor :: IO String
+pickColor = do
+  selection <- randomRIO (0, length colors - 1)
+  pure $ colors !! selection
 
 stripIndex :: String -> String
 stripIndex url = if "index.html" `isSuffixOf` url

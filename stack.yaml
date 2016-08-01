@@ -6,12 +6,10 @@ resolver: lts-6.7
 # Local packages, usually specified by relative directory name
 packages:
 - '.'
-- location:
-    git: https://phabricator.chromabits.com/diffusion/KWAI/kawaii.git
-    commit: 50bf3ff2edeeb8a68b585fee19d255af377e37b3
 
 # Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
-extra-deps: []
+extra-deps:
+- kawaii-0.0.1.0
 
 # Override default flag values for local packages and extra-deps
 flags: {}
