@@ -1,5 +1,5 @@
 ---
-title: Ensure 0.5.0: Documentation and shields!
+title: 'Ensure 0.5.0: Documentation and shields!'
 tags: ensure, nodejs
 uuid: a4d02358-7410-46ed-be8a-b99730a0e45d
 legacy: ensure-050-documentation-and-shields

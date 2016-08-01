@@ -10,7 +10,7 @@ h1 {
     padding: rem-calc(0);
     line-height: rem-calc(60);
 
-    @include breakpoint(small down) {
+    @include breakpoint(small only) {
       line-height: 1.5rem;
     }
 

@@ -1,5 +1,5 @@
 ---
-title: Laravel 5: Custom Logs
+title: 'Laravel 5: Custom Logs'
 tags: laravel, laravel5, logs, php
 uuid: f9095ab9-008f-44fd-aa54-b148dcd007e0
 legacy: laravel-5-custom-logs

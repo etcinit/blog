@@ -1,5 +1,5 @@
 ---
-title: Using Laravel: PHP is not dead
+title: 'Using Laravel: PHP is not dead'
 tags: php, laravel
 uuid: 9b92d244-281c-401c-8c72-3e9a67e976c3
 legacy: using-laravel-php-is-not-dead

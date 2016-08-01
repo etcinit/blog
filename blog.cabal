@@ -19,15 +19,19 @@ executable blog
   ghc-options:         -threaded
   build-depends:       base == 4.*,
                        lens,
-                       hakyll == 4.7.*,
-                       hakyll-serve,
+                       hakyll == 4.8.*,
+                       kawaii,
                        filepath == 1.4.*,
                        split == 0.2.*,
                        random,
                        transformers,
                        containers == 0.5.*,
                        pandoc == 1.*,
-                       highlighting-kate == 0.6.*
+                       highlighting-kate == 0.6.*,
+                       unordered-containers,
+                       aeson,
+                       text,
+                       data-default
 
 executable server
   main-is:             server.hs
@@ -39,11 +43,12 @@ executable server
                        text,
                        lens,
                        bytestring == 0.10.*,
-                       hakyll-serve,
+                       kawaii,
                        warp == 3.*,
                        warp-tls == 3.*,
                        wai == 3.*,
                        wai-extra >= 3.0.14,
                        wai-app-static == 3.*,
                        streaming-commons == 0.1.*,
-                       containers
+                       containers,
+                       data-default

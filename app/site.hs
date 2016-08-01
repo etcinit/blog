@@ -1,38 +1,45 @@
---------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 
 import Control.Applicative
-import Control.Monad (liftM)
-import Control.Lens ((&), (.~))
-import qualified Data.Map as M
-import Data.Maybe (fromMaybe)
-import Data.List (intersperse, isSuffixOf)
-import Data.List.Split (splitOn)
-import Hakyll
-import Hakyll.Serve (ServeConfiguration, defaultServeConfiguration,
-  hakyllConfiguration, hakyllServeWith)
-import Text.Highlighting.Kate.Styles (haddock)
-import Text.Pandoc.Options
-import System.FilePath (splitExtension)
-import System.Random (randomRIO)
+import Control.Monad       (liftM, mapM_)
+import Data.List           (intersperse, isSuffixOf)
+import Data.List.Split     (splitOn)
+import Data.Maybe          (fromMaybe)
+import Data.Monoid         ((<>))
+import System.FilePath     (splitExtension)
+import System.Random       (randomRIO)
 
---------------------------------------------------------------------------------
+import           Control.Lens                  ((&), (.~))
+import qualified Data.Aeson                    as A
+import           Data.Default                  (def)
+import qualified Data.HashMap.Strict           as HM
+import qualified Data.Text                     as T
+import           Hakyll
+import           Hakyll.Serve.Main             (HakyllServeConfiguration,
+                                                hakyllServeWith,
+                                                hscHakyllConfiguration)
+import           Text.Highlighting.Kate.Styles (haddock)
+import           Text.Pandoc.Options
+
+-- TYPES ----------------------------------------------------------------------
+
 data SiteConfiguration = SiteConfiguration
   { siteRoot :: String
   , siteGaId :: String
   }
 
-serveConf :: ServeConfiguration
-serveConf = defaultServeConfiguration & hakyllConfiguration .~ hakyllConf
+serveConf :: HakyllServeConfiguration
+serveConf = def & hscHakyllConfiguration .~ hakyllConf
 
---------------------------------------------------------------------------------
+-- CONFIGURATION --------------------------------------------------------------
+
 hakyllConf :: Configuration
 hakyllConf = defaultConfiguration
-  { deployCommand =
-      "rsync -ave 'ssh' _site/* 45.79.220.75:/var/www/chromabits " ++
-      "&& rsync -ave 'ssh' " ++
-      ".stack-work/install/x86_64-linux/lts-5.2/7.10.3/bin/server " ++
-      "45.79.220.75:/opt/chromabits"
+  { deployCommand
+      = "rsync -ave 'ssh' _site/* 45.79.220.75:/var/www/chromabits "
+      <> "&& rsync -ave 'ssh' "
+      <> ".stack-work/install/x86_64-linux/lts-6.7/7.10.3/bin/server "
+      <> "45.79.220.75:/opt/chromabits"
   }
 
 siteConf :: SiteConfiguration
@@ -41,56 +48,31 @@ siteConf = SiteConfiguration
   , siteGaId = "UA-47694260-1"
   }
 
--- feedConf :: String -> FeedConfiguration
--- feedConf title = FeedConfiguration
---  { feedTitle = "Chromabits: " ++ title
---  , feedDescription = "Personal blog"
---  , feedAuthorName = "Eduardo Trujillo"
---  , feedAuthorEmail = "ed@chromabits.com"
---  , feedRoot = "https://chromabits.com"
---  }
+colors :: [String]
+colors = ["purple", "yellow", "orange", "red", "cyan", "green", "blue"]
 
---------------------------------------------------------------------------------
+-- RULES ----------------------------------------------------------------------
+
 main :: IO ()
 main = hakyllServeWith serveConf $ do
   let writerOptions = defaultHakyllWriterOptions
         { writerHtml5 = True
         , writerHighlightStyle = haddock
-        , writerHTMLMathMethod = MathJax $ "https://cdn.mathjax.org/"
-            ++ "mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        , writerHTMLMathMethod = MathJax
+            $ "https://cdn.mathjax.org/"
+            <> "mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
         }
+      pandocHtml5Compiler = pandocCompilerWith
+        defaultHakyllReaderOptions
+        writerOptions
 
-  let pandocHtml5Compiler =
-        pandocCompilerWith defaultHakyllReaderOptions writerOptions
-
-  match "images/*" $ do
-    route idRoute
-    compile copyFileCompiler
-  
-  match "images/posts/*" $ do
-    route idRoute
-    compile copyFileCompiler
-  
-  match "images/tumblr/*" $ do
-    route idRoute
-    compile copyFileCompiler
-
-  match "css/app.css" $ do
-    route $ setExtension "css"
-    compile copyFileCompiler
-
-  match "favicon.ico" $ do
-    route $ setExtension "ico"
-    compile copyFileCompiler
-
-  match "keybase.txt" $ do
-    route $ setExtension "txt"
-    compile copyFileCompiler
-
-  match "robots.txt" $ do
-    route $ setExtension "txt"
-    compile copyFileCompiler
-
+  mapM_ matchAndCopyDirectory ["images/*", "images/posts/*", "images/tumblr/*"]
+  mapM_ matchAndCopy
+    [ ("css/app.css", "css")
+    , ("favicon.ico", "ico")
+    , ("keybase.txt", "txt")
+    , ("robots.txt", "txt")
+    ]
   match "bower_components/font-awesome/fonts/*" $ do
     route $ gsubRoute "bower_components/font-awesome/" (const "")
     compile copyFileCompiler
@@ -109,14 +91,17 @@ main = hakyllServeWith serveConf $ do
       >>= relativizeUrls
       >>= deIndexUrls
 
-  matchMetadata "posts/*" (M.member "legacy") $ version "legacy" $ do
+  matchMetadata "posts/*" (HM.member "legacy") $ version "legacy" $ do
     route $ legacyRoute `composeRoutes` setExtension "html"
     compile $ do
       color <- unsafeCompiler (randomRIO (0, length colors - 1)
         >>= \selection -> pure (colors !! selection))
+      identifier <- getUnderlying
 
-      let ctx = constField "color" color `mappend`
-            postCtx
+      let ctx
+            = constField "color" color
+            <> constField "identifier" (show identifier)
+            <> postCtx
 
       pandocHtml5Compiler
         >>= loadAndApplyTemplate "templates/post.html" ctx
@@ -125,14 +110,21 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
+  match "posts/*" . version "markdown" $ do
+    route idRoute
+    compile copyFileCompiler
+
   match "posts/*" $ do
-    route $ directorizeDate `composeRoutes` setExtension "html"
+    route $ directorizeDate "/index" `composeRoutes` setExtension "html"
     compile $ do
       color <- unsafeCompiler (randomRIO (0, length colors - 1)
         >>= \selection -> pure (colors !! selection))
+      identifier <- getUnderlying
 
-      let ctx = constField "color" color `mappend`
-            postCtx
+      let ctx
+            = constField "color" color
+            <> constField "identifier" (show identifier)
+            <> postCtx
 
       pandocHtml5Compiler
         >>= loadAndApplyTemplate "templates/post.html" ctx
@@ -145,7 +137,7 @@ main = hakyllServeWith serveConf $ do
   match "drafts/*" $ do
     route $ setExtension "html"
     compile $ do
-      let ctx = constField "color" "red" `mappend` postCtx
+      let ctx = constField "color" "red" <> postCtx
 
       pandocHtml5Compiler
         >>= loadAndApplyTemplate "templates/post.html" ctx
@@ -158,8 +150,10 @@ main = hakyllServeWith serveConf $ do
     route $ indexify `composeRoutes` setExtension "html"
     compile $ do
       compiled <- pandocHtml5Compiler
-      full <- loadAndApplyTemplate "templates/project.html"
-        siteCtx compiled
+      full <- loadAndApplyTemplate
+        "templates/project.html"
+        siteCtx
+        compiled
       teaser <- loadAndApplyTemplate "templates/project-teaser.html"
         siteCtx $ dropMore compiled
 
@@ -175,10 +169,10 @@ main = hakyllServeWith serveConf $ do
     compile $ do
       posts <- recentFirst =<< loadAll ("posts/*" .&&. hasNoVersion)
 
-      let archiveCtx =
-            listField "posts" postCtx (return posts) `mappend`
-            constField "title" "Archives" `mappend`
-            siteCtx
+      let archiveCtx
+            = listField "posts" postCtx (return posts)
+            <> constField "title" "Archives"
+            <> siteCtx
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
@@ -191,10 +185,10 @@ main = hakyllServeWith serveConf $ do
     compile $ do
       projects <- loadAllSnapshots "projects/*" "teaser"
 
-      let archiveCtx =
-            listField "posts" siteCtx (return projects) `mappend`
-            constField "title" "Projects" `mappend`
-            siteCtx
+      let archiveCtx
+            = listField "posts" siteCtx (return projects)
+            <> constField "title" "Projects"
+            <> siteCtx
 
       makeItem ""
         >>= loadAndApplyTemplate "templates/projects.html" archiveCtx
@@ -211,13 +205,13 @@ main = hakyllServeWith serveConf $ do
       body <- readTemplate . itemBody <$> getResourceBody
 
       let paginateCtx = paginateContext pag 1
-      let ctx = paginateCtx `mappend` indexCtx
+      let ctx = paginateCtx <> indexCtx
 
       loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content"
         >>= fmap (take 3) . recentFirst
         >>= applyTemplateList tpl ctx
         >>= makeItem
-        >>= applyTemplate body (ctx `mappend` bodyField "posts")
+        >>= applyTemplate body (ctx <> bodyField "posts")
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
         >>= deIndexUrls
@@ -228,53 +222,54 @@ main = hakyllServeWith serveConf $ do
         tpl <- loadBody "templates/post-item-full.html"
 
         let paginateCtx = paginateContext pag pageNum
-        let ctx = paginateCtx `mappend`
-              constField "title" ("Page " ++ show pageNum) `mappend`
-              indexCtx
+        let ctx
+              = paginateCtx
+              <> constField "title" ("Page " ++ show pageNum)
+              <> indexCtx
 
         loadAllSnapshots pattern "content"
           >>= recentFirst
           >>= applyTemplateList tpl ctx
           >>= makeItem
-          >>= loadAndApplyTemplate "templates/paginated.html"
-            (ctx `mappend` bodyField "posts")
-          >>= loadAndApplyTemplate "templates/default.html"
-            (ctx `mappend` bodyField "posts")
+          >>= loadAndApplyTemplate
+            "templates/paginated.html"
+            (ctx <> bodyField "posts")
+          >>= loadAndApplyTemplate
+            "templates/default.html"
+            (ctx <> bodyField "posts")
           >>= relativizeUrls
           >>= deIndexUrls
 
     match "templates/*" $ compile templateCompiler
 
---------------------------------------------------------------------------------
+-- CONTEXTS -------------------------------------------------------------------
+
 siteCtx :: Context String
-siteCtx =
-  deIndexedUrlField "url" `mappend`
-  constField "root" (siteRoot siteConf) `mappend`
-  constField "gaId" (siteGaId siteConf) `mappend`
-  defaultContext
+siteCtx
+  = deIndexedUrlField "url"
+  <> constField "root" (siteRoot siteConf)
+  <> constField "gaId" (siteGaId siteConf)
+  <> defaultContext
 
 postCtx :: Context String
-postCtx =
-    dateField "date" "%B %e, %Y" `mappend`
-    dateField "datetime" "%Y-%m-%d" `mappend`
-    siteCtx
+postCtx
+  = dateField "date" "%B %e, %Y"
+  <> dateField "datetime" "%Y-%m-%d"
+  <> siteCtx
 
 indexCtx :: Context String
 indexCtx = siteCtx
 
---------------------------------------------------------------------------------
-colors :: [String]
-colors = ["purple", "yellow", "orange", "red", "cyan", "green", "blue"]
+-- ROUTE HELPERS --------------------------------------------------------------
 
---------------------------------------------------------------------------------
-directorizeDate :: Routes
-directorizeDate = customRoute (\i -> directorize $ toFilePath i)
+directorizeDate :: String -> Routes
+directorizeDate postfix = customRoute (directorize . toFilePath)
   where
-    directorize path = dirs ++ "/index" ++ ext
-      where
-        (dirs, ext) = splitExtension $ concat $
-          intersperse "/" date ++ ["/"] ++ intersperse "-" rest
-        (date, rest) = splitAt 3 $ splitOn "-" path
+    directorize path = dirs <> postfix <> ext
+     where
+      (dirs, ext) = splitExtension . concat
+        $ intersperse "/" date ++ ["/"] ++ intersperse "-" rest
+      (date, rest) = splitAt 3 $ splitOn "-" path
 
 indexify :: Routes
 indexify = customRoute (\i -> addIndex $ toFilePath i)
@@ -283,11 +278,36 @@ indexify = customRoute (\i -> addIndex $ toFilePath i)
      where
        (original, ext) = splitExtension path
 
+-- | A special route that will produce paths compatible with the old Chromabits
+-- blog. The slug in that path is determined by a 'legacy' field on each post.
+legacyRoute :: Routes
+legacyRoute = metadataRoute $ \x -> constRoute . T.unpack . mconcat $
+  [ "post/"
+  , fromMaybe "unknown" (HM.lookup "legacy" x >>= valueToText)
+  , "/index.html"
+  ]
+
+-- RULE HELPERS ---------------------------------------------------------------
+
+matchAndCopyDirectory :: Pattern -> Rules ()
+matchAndCopyDirectory dir = match dir $ do
+  route idRoute
+  compile copyFileCompiler
+
+matchAndCopy :: (Pattern, String) -> Rules ()
+matchAndCopy (path, extension) = match path $ do
+  route $ setExtension extension
+  compile copyFileCompiler
+
+-- IDENTIFIER HELPERS ---------------------------------------------------------
+
 grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
 grouper ids = (liftM (paginateEvery 3) . sortRecentFirst) ids
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ "/index.html"
+
+-- UTILITIES ------------------------------------------------------------------
 
 stripIndex :: String -> String
 stripIndex url = if "index.html" `isSuffixOf` url
@@ -304,9 +324,6 @@ deIndexedUrlField key = field key
 dropMore :: Item String -> Item String
 dropMore = fmap (unlines . takeWhile (/= "<!--more-->") . lines)
 
--- | A special route that will produce paths compatible with the old Chromabits
--- blog. The slug in that path is determined by a 'legacy' field on each post.
-legacyRoute :: Routes
-legacyRoute = metadataRoute $
-  \x -> constRoute $
-    "post/" ++ fromMaybe "unknown" (M.lookup "legacy" x) ++ "/index.html"
+valueToText :: A.Value -> Maybe T.Text
+valueToText (A.String innerText) = Just innerText
+valueToText _ = Nothing
