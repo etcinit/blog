@@ -45,11 +45,24 @@ directives =
     ]
   ]
 
+getTLSSettings :: IO TLSSettings
+getTLSSettings = do
+  certPath <- lookupEnv "BLOG_TLS_CERT"
+  chainPath <- lookupEnv "BLOG_TLS_CHAIN"
+  keyPath <- lookupEnv "BLOG_TLS_KEY"
+
+  return $ tlsSettingsChain
+    (fromMaybe "cert.pem" certPath)
+    [fromMaybe "fullchain.pem" chainPath]
+    (fromMaybe "privkey.pem" keyPath)
+
 -- | The entry point of the server application.
 main :: IO ()
 main = do
   rawStage <- lookupEnv "BLOG_STAGE"
   rawPath <- lookupEnv "BLOG_PATH"
+
+  tlsSettings <- getTLSSettings
 
   let liveMiddleware
         = mempty
@@ -61,6 +74,8 @@ main = do
         <#> deindexifyMiddleware
         <#> gzipMiddleware
       prodMiddlware = (mempty <#> stsHeadersMiddleware) <> liveMiddleware
+
+  let tlsConf = TLSConfiguration (const liveMiddleware) tlsSettings 8443
 
   serve $ def
     & scStage .~ case rawStage of
@@ -75,10 +90,12 @@ main = do
       <#> gzipMiddleware
     & scPath .~ rawPath
     & scStagingTransform .~
-      ( (set scMiddleware liveMiddleware)
+      ( (set scTlsConfiguration $ Just tlsConf)
+      . (set scMiddleware liveMiddleware)
       . (set scPort 8080)
       )
     & scProdTransform .~
-      ( (set scMiddleware prodMiddlware)
+      ( (set scTlsConfiguration $ Just (tlsConf & tlsPort .~ 443))
+      . (set scMiddleware prodMiddlware)
       . (set scPort 80)
       )

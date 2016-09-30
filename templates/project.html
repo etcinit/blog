@@ -1,67 +1,71 @@
-<div class="row">
-  <div class="medium-8 columns">
-    <h2>$title$</h2>
+<div class="row align-center">
+  <div class="large-10 small-12 columns">
+    <div class="row">
+      <div class="medium-8 columns">
+        <h2>$title$</h2>
 
-    <p><span class="success label">$platform$</span></p>
-  </div>
+        <p><span class="success label">$platform$</span></p>
+      </div>
 
-  <div class="medium-4 columns text-right">
-    <ul class="menu vertical">
-    $if(github)$
-      <li><a href="https://github.com/$github$">
-        <i class="fa fa-github"></i>
-        &nbsp;View on GitHub
-      </a></li>
+      <div class="medium-4 columns text-right">
+        <ul class="menu vertical">
+        $if(github)$
+          <li><a href="https://github.com/$github$">
+            <i class="fa fa-github"></i>
+            &nbsp;View on GitHub
+          </a></li>
+        $endif$
+        $if(docs)$
+          <li><a href="$docs$">
+            <i class="fa fa-book"></i>
+            &nbsp;Documentation
+          </a></li>
+        $endif$
+        $if(sourcegraph)$
+          <li><a href="$sourcegraph$">
+            <i class="fa fa-asterisk"></i>
+            &nbsp;Sourcegraph
+          </a></li>
+        $endif$
+        $if(post)$
+          <li><a href="$post$">
+            <i class="fa fa-file-text-o"></i>
+            &nbsp;Read blog post
+          </a></li>
+        $endif$
+        $if(dockerhub)$
+          <li><a href="https://hub.docker.com/$dockerhub$">
+            <i class="fa fa-ship"></i>
+            &nbsp;DockerHub
+          </a></li>
+        $endif$
+        $if(quay)$
+          <li><a href="https://quay.io/$quay$">
+            <i class="fa fa-ship"></i>
+            &nbsp;Quay.io
+          </a></li>
+        $endif$
+        <ul/>
+      </div>
+    </div>
+
+    $if(abandoned)$
+    <div class="callout alert">
+      <h5>
+        <i class="fa fa-warning"></i>
+        WARNING
+      </h5>
+      <p>
+        This project is marked as abandoned. This means it is no longer being
+        actively maintained (including security updates).
+      </p>
+    </div>
     $endif$
-    $if(docs)$
-      <li><a href="$docs$">
-        <i class="fa fa-book"></i>
-        &nbsp;Documentation
-      </a></li>
-    $endif$
-    $if(sourcegraph)$
-      <li><a href="$sourcegraph$">
-        <i class="fa fa-asterisk"></i>
-        &nbsp;Sourcegraph
-      </a></li>
-    $endif$
-    $if(post)$
-      <li><a href="$post$">
-        <i class="fa fa-file-text-o"></i>
-        &nbsp;Read blog post
-      </a></li>
-    $endif$
-    $if(dockerhub)$
-      <li><a href="https://hub.docker.com/$dockerhub$">
-        <i class="fa fa-ship"></i>
-        &nbsp;DockerHub
-      </a></li>
-    $endif$
-    $if(quay)$
-      <li><a href="https://quay.io/$quay$">
-        <i class="fa fa-ship"></i>
-        &nbsp;Quay.io
-      </a></li>
-    $endif$
-    <ul/>
+
+    <hr>
+
+    $body$
+
+    $partial("templates/disqus.html")$
   </div>
 </div>
-
-$if(abandoned)$
-<div class="callout alert">
-  <h5>
-    <i class="fa fa-warning"></i>
-    WARNING
-  </h5>
-  <p>
-    This project is marked as abandoned. This means it is no longer being
-    actively maintained (including security updates).
-  </p>
-</div>
-$endif$
-
-<hr>
-
-$body$
-
-$partial("templates/disqus.html")$

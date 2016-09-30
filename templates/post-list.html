@@ -1,7 +1,14 @@
-<ul class="no-bullet">
-    $for(posts)$
-        <li>
-            <a href="$url$">$title$</a> - $date$
-        </li>
-    $endfor$
-</ul>
+<div class="masonry">
+  $for(posts)$
+      <div class="small-12">
+          <div class="callout">
+            $if(feature-image)$
+            <p><img class="pad" src="$feature-image$"></p>
+            $endif$
+
+            <a href="$url$">$title$</a>
+            <p><small>$date$</small></p>
+          </div>
+      </div>
+  $endfor$
+</div>

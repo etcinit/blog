@@ -57,9 +57,27 @@ a#logo {
 
   div {
     background-image: url('/images/header_logo_float.png');
-    width: 143px;
-    height: 59px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    transition: transform 0.5s ease;
+
+    &:hover {
+      transform: scale(0.8) rotate(0.5turn);
+    }
+
+    &:active {
+      transform: scale(0.75) rotate(0.75turn);
+    }
   }
+}
+
+div#logo-text {
+  display: inline-block;
+  height: 60px;
+  line-height: 60px;
+  margin-left: 10px;
 }
 
 div#footer {
@@ -122,6 +140,13 @@ figcaption {
 
     .text-left-medium {
       text-align: left;
+    }
+}
+
+@include breakpoint(large) {
+    .masonry {
+      column-count: 4;
+      column-gap: rem-calc(15);
     }
 }
 

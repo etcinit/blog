@@ -3,6 +3,7 @@ title: First Impressions on Using Gentoo
 date: Sun Mar 13 16:01:00 EDT 2016
 author: Eduardo Trujillo
 uuid: c6dbbd2f-4e46-469f-82c6-a3a259fe7ca7
+feature-image: /images/posts/gentoo-screenfetch.png
 ---
 
 ![screenfetch output inside GNOME + Wayland](/images/posts/gentoo-screenfetch.png)

@@ -3,6 +3,7 @@ title: Continuous integration for Haskell projects with Docker
 date: Wed April 20 14:21:00 EDT 2016
 author: Eduardo Trujillo
 uuid: ccdac18a-4592-4560-9505-8940bb69df46
+feature-image: /images/posts/haskell-containers.png
 ---
 
 At my current job, we are starting to adopt Haskell to write some of our

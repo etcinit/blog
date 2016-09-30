@@ -3,6 +3,7 @@ title: Profiling Laravel requests with XHProf
 date: Web Feb 10 19:00:00 EDT 2016
 author: Eduardo Trujillo
 uuid: a78def34-69ac-4830-b97e-106b7c855e71
+feature-image: /images/posts/xhprof.png
 ---
 
 I've recently been dealing with slow endpoints on a PHP application written

@@ -3,6 +3,7 @@ title: 2 Problems from AI class
 tags: ai, snake-in-the-box
 uuid: 8d741fd5-2690-411e-9206-a570f15d1115
 legacy: 2-problems-from-ai-class
+feature-image: /images/posts/hypercube.png
 ---
 
 These are two problems I've worked on from my Artificial Intelligence class this semester. These are problems which can take a really long time if done naively, hence the goal is to come up with solutions that use some heuristic to come up with the answer faster.

@@ -3,6 +3,7 @@ title: Continuous Haddocks
 date: Tue Jul  5 02:07:11 UTC 2016
 author: Eduardo Trujillo
 uuid: 60456ddb-e31d-4ae1-8e44-787c7da1e804
+feature-image: /images/posts/haddocks.png
 ---
 
 On a [previous post][5], I covered how to setup continuous integration for

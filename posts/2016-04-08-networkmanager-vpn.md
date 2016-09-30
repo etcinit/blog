@@ -3,6 +3,7 @@ title: Automatically connecting to VPNs using NetworkManager
 date: Fri April 08 16:01:00 EDT 2016
 author: Eduardo Trujillo
 uuid: 2bdc6147-c228-47f2-8b5f-8f71915a5ea4
+feature-image: /images/posts/networkmanager-vpn.png
 ---
 
 Coming from OS X, I've grown accustomed to [Tunnelblick][tb], which is one of

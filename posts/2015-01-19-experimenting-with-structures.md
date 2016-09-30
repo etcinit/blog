@@ -4,6 +4,7 @@ tags: php, datastructures, testing
 uuid: 760eaf0c-585a-405e-b680-6d45343986f1
 legacy: experimenting-with-structures
 author: Eduardo Trujillo
+feature-image: https://i.imgur.com/9Owjani.png
 ---
 
 For many programming languages and software packages, data structures such as linked lists and maps, and sorting algorithms like quicksort, are things that come built-in.

@@ -2,6 +2,7 @@
 <html class="no-js" lang="en">
   <head>
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     $if(title)$
@@ -29,8 +30,16 @@
 
     <div id="header" class="row align-middle">
       <div class="medium-6 small-12 columns text-center text-left-medium">
-        <a href="/" id="logo"><div></div></a>
+        <div class="show-for-medium">
+          <div class="float-left"><a href="/" id="logo"><div></div></a></div>
+          <div id="logo-text"><b>CHROMABITS</b></div>
+        </div>
+
+        <div class="show-for-small-only">
+          <div><a href="/" id="logo"><div></div></a></div>
+        </div>
       </div>
+
       <div class="medium-6 small-12 columns text-center text-left-medium">
         <ul class="menu align-right show-for-medium">
           <li><a href="/archive">Archive</a></li>
@@ -47,14 +56,11 @@
     </div>
 
     <div class="row">
-      <div class="medium-9 small-12 columns">
+      <div class="small-12 columns">
         $body$
       </div>
-
-      <div class="medium-3 small-12 columns">
-        $partial("templates/twitter.html")$
-      </div>
     </div>
+
     <div id="footer" class="row">
       <div class="column text-right">
         <small>

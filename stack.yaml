@@ -17,6 +17,15 @@ flags: {}
 # Extra package databases containing global packages
 extra-package-dbs: []
 
+docker:
+  enable: true
+
+image:
+  container:
+    base: fpco/stack-run
+    entrypoints:
+      - server
+
 # Control whether we use the GHC we find on the path
 # system-ghc: true
 
