@@ -45,7 +45,7 @@
 
 //$global-width: rem-calc(1200);
 $global-width: rem-calc(1000);
-$global-font-size: 100%;
+$global-font-size: 16px;
 $global-lineheight: 1.5;
 $primary-color: #2199e8;
 $secondary-color: #777;
@@ -68,7 +68,6 @@ $global-weight-normal: normal;
 $global-weight-bold: bold;
 $global-radius: 0;
 $global-text-direction: ltr;
-$rem-base: 16px;
 
 // 2. Breakpoints
 // --------------
@@ -198,6 +197,7 @@ $accordion-content-padding: 1rem;
 // -----------------
 
 $accordionmenu-arrows: true;
+$accordionmenu-arrow-color: $anchor-color;
 
 // 9. Badge
 // --------
@@ -276,6 +276,7 @@ $closebutton-color-hover: $black;
 
 $drilldown-transition: transform 0.15s linear;
 $drilldown-arrows: true;
+$drilldown-arrow-color: $anchor-color;
 
 // 16. Dropdown
 // ------------
@@ -298,6 +299,7 @@ $dropdownmenu-arrows: true;
 $dropdownmenu-min-width: 200px;
 $dropdownmenu-background: $white;
 $dropdownmenu-border: 1px solid $medium-gray;
+$dropdownmenu-arrow-color: $anchor-color;
 
 // 18. Flex Video
 // --------------

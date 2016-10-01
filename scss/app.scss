@@ -1,9 +1,12 @@
 @import 'settings';
 
+$global-flexbox: true;
+
 // Foundation
 @import 'foundation';
 
 @include foundation-global-styles;
+//@include foundation-flex-classes;
 @include foundation-flex-grid;
 @include foundation-typography;
 @include foundation-button;
