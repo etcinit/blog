@@ -28,10 +28,10 @@ data SiteConfiguration = SiteConfiguration
   , siteGaId :: String
   }
 
+-- CONFIGURATION --------------------------------------------------------------
+
 serveConf :: HakyllServeConfiguration
 serveConf = def & hscHakyllConfiguration .~ hakyllConf
-
--- CONFIGURATION --------------------------------------------------------------
 
 hakyllConf :: Configuration
 hakyllConf = defaultConfiguration
@@ -46,6 +46,15 @@ siteConf :: SiteConfiguration
 siteConf = SiteConfiguration
   { siteRoot = "https://chromabits.com"
   , siteGaId = "UA-47694260-1"
+  }
+
+feedConf :: FeedConfiguration
+feedConf = FeedConfiguration
+  { feedTitle = "Chromabits"
+  , feedDescription = "A personal blog"
+  , feedAuthorName = "Eduardo Trujillo"
+  , feedAuthorEmail = "ed+contact@chromabits.com"
+  , feedRoot = "https://chromabits.com"
   }
 
 colors :: [String]
@@ -125,6 +134,8 @@ main = hakyllServeWith serveConf $ do
             <> postCtx
 
       pandocHtml5Compiler
+        >>= loadAndApplyTemplate "templates/post-body.html" ctx
+        >>= saveSnapshot "content-body"
         >>= loadAndApplyTemplate "templates/post.html" ctx
         >>= saveSnapshot "content"
         >>= loadAndApplyTemplate "templates/full-post.html" ctx
@@ -235,6 +246,15 @@ main = hakyllServeWith serveConf $ do
         >>= deIndexUrls
 
   match "templates/*" $ compile templateCompiler
+
+  create ["feed.rss"] $ do
+    route idRoute
+    compile $ do
+      let context = postCtx <> bodyField "description"
+
+      posts <- fmap (take 10) . recentFirst
+        =<< loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content-body"
+      renderRss feedConf context posts
 
 -- CONTEXTS -------------------------------------------------------------------
 
