@@ -1,86 +1,84 @@
-@import 'settings';
+@import url("https://rsms.me/inter/inter-ui.css");
+
+@import "settings";
 
 $global-flexbox: true;
 
 // Foundation
-@import 'foundation';
+@import "foundation";
 
-@include foundation-global-styles;
-//@include foundation-flex-classes;
-@include foundation-flex-grid;
-@include foundation-typography;
-@include foundation-button;
-@include foundation-forms;
-@include foundation-visibility-classes;
-@include foundation-float-classes;
-@include foundation-accordion;
-@include foundation-accordion-menu;
+// @include foundation-accordion-menu;
+// @include foundation-accordion;
+// @include foundation-flex-video;
+// @include foundation-off-canvas;
+// @include foundation-orbit;
+// @include foundation-progress-bar;
+// @include foundation-reveal;
+// @include foundation-slider;
+// @include foundation-sticky;
+// @include foundation-switch;
+// @include foundation-tabs;
+// @include foundation-title-bar;
+// @include foundation-tooltip;
+// @include foundation-top-bar;
 @include foundation-badge;
 @include foundation-breadcrumbs;
 @include foundation-button-group;
+@include foundation-button;
 @include foundation-callout;
 @include foundation-close-button;
 @include foundation-drilldown-menu;
-@include foundation-dropdown;
 @include foundation-dropdown-menu;
-@include foundation-flex-video;
+@include foundation-dropdown;
+@include foundation-flex-classes;
+@include foundation-flex-grid;
+@include foundation-forms;
+@include foundation-global-styles;
 @include foundation-label;
 @include foundation-media-object;
 @include foundation-menu;
-@include foundation-off-canvas;
-@include foundation-orbit;
 @include foundation-pagination;
-@include foundation-progress-bar;
-@include foundation-slider;
-@include foundation-sticky;
-@include foundation-reveal;
-@include foundation-switch;
 @include foundation-table;
-@include foundation-tabs;
 @include foundation-thumbnail;
-@include foundation-title-bar;
-@include foundation-tooltip;
-@include foundation-top-bar;
+@include foundation-typography;
+@include foundation-visibility-classes;
+
+@include foundation-xy-grid-classes;
 
 $fa-font-path: "/fonts";
 @import "font-awesome";
 
-@import "code";
 @import "colors";
-@import "headers";
+
+@import "components/leaderboard";
+@import "components/menu";
+@import "components/logo";
+@import "components/leader";
+@import "layout/footer";
+@import "layout/masonry";
+@import "typography/code";
+@import "typography/headers";
+
+html {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-body {
+  flex-grow: 1;
+}
 
 div#header {
   padding-top: rem-calc(45);
   padding-bottom: rem-calc(30);
   border-bottom: 2px $medium-gray;
-}
-
-a#logo {
-  display: inline-block;
-
-  div {
-    background-image: url('/images/header_logo_float.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 60px;
-    height: 60px;
-    transition: transform 0.5s ease;
-
-    &:hover {
-      transform: scale(0.8) rotate(0.5turn);
-    }
-
-    &:active {
-      transform: scale(0.75) rotate(0.75turn);
-    }
-  }
-}
-
-div#logo-text {
-  display: inline-block;
-  height: 60px;
-  line-height: 60px;
-  margin-left: 10px;
 }
 
 div#footer {
@@ -89,10 +87,9 @@ div#footer {
 }
 
 div.info {
-    color: #555;
-    font-size: 14px;
-    font-style: italic;
-    margin-bottom: rem-calc(20);
+  color: #555;
+  font-size: 14px;
+  font-style: italic;
 }
 
 div.post {
@@ -113,15 +110,19 @@ div.callout-quote {
 }
 
 figcaption {
-  font-style: italic;
-  font-size: 80%;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 1rem;
+  font-style: normal;
+  color: #666;
 
   &::before {
-    content: 'fig. '
+    content: "fig. ";
   }
 }
 
-.wf-loading h1, .wf-loading p {
+.wf-loading h1,
+.wf-loading p {
   visibility: hidden;
 }
 
@@ -129,32 +130,9 @@ figcaption {
   display: inline-block;
 }
 
-@include breakpoint(medium) {
-    .masonry {
-      column-count: 3;
-      column-gap: rem-calc(15);
-
-      .callout {
-        margin-bottom: rem-calc(15);
-        display: inline-block;
-        width: 100%;
-      }
-    }
-
-    .text-left-medium {
-      text-align: left;
-    }
-}
-
-@include breakpoint(large) {
-    .masonry {
-      column-count: 4;
-      column-gap: rem-calc(15);
-    }
-}
-
 figure {
-    text-align: center;
+  text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .markdown-icon {
@@ -170,3 +148,4 @@ figure {
 .sidebar-text {
   font-size: 0.8rem;
 }
+

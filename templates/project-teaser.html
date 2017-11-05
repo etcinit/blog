@@ -1,9 +1,9 @@
-<div class="row">
-  <div class="medium-8 columns">
-    <a href="$url$" class="float-left"><h5>$title$</h5></a>
+<div class="grid-x">
+  <div class="auto cell">
+    <a href="$url$"><h5>$title$</h5></a>
   </div>
-  <div class="medium-4 columns">
-    <div class="float-right">
+  <div class="medium-4 cell">
+    <div class="grid-x align-right">
       <span class="success label">$platform$</span>
     </div>
   </div>
@@ -11,8 +11,8 @@
 
 $body$
 
-<div class="row">
-  <div class="columns">
+<div class="grid-x">
+  <div class="cell">
     $if(github)$
       <a href="https://github.com/$github$">
         <i class="fa fa-github"></i>

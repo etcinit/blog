@@ -1,7 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 import Control.Applicative
-import Control.Monad       (liftM, mapM_)
+import Control.Monad       (liftM, mapM_, join)
 import Data.List           (intersperse, isSuffixOf)
 import Data.List.Split     (splitOn)
 import Data.Maybe          (fromMaybe)
@@ -18,8 +18,10 @@ import           Hakyll
 import           Hakyll.Serve.Main             (HakyllServeConfiguration,
                                                 hakyllServeWith,
                                                 hscHakyllConfiguration)
-import           Text.Highlighting.Kate.Styles (haddock)
+import           Skylighting.Styles (haddock)
 import           Text.Pandoc.Options
+import Text.Sass.Compilation
+import Text.Sass.Options
 
 -- TYPES ----------------------------------------------------------------------
 
@@ -75,16 +77,26 @@ main = hakyllServeWith serveConf $ do
         defaultHakyllReaderOptions
         writerOptions
 
-  mapM_ matchAndCopyDirectory ["images/*", "images/posts/*", "images/tumblr/*"]
+  mapM_ matchAndCopyDirectory
+    ["images/*", "images/posts/*", "images/tumblr/*"]
   mapM_ matchAndCopy
-    [ ("css/app.css", "css")
-    , ("favicon.ico", "ico")
+    [ ("favicon.ico", "ico")
     , ("keybase.txt", "txt")
     , ("robots.txt", "txt")
     ]
-  match "bower_components/font-awesome/fonts/*" $ do
-    route $ gsubRoute "bower_components/font-awesome/" (const "")
+  match "third_party/font-awesome/fonts/*" $ do
+    route $ gsubRoute "third_party/font-awesome/" (const "")
     compile copyFileCompiler
+
+  create ["scss/app.scss"] $ do
+    route $ gsubRoute "scss/" (const "css/") `composeRoutes` setExtension "css"
+    compile . sassCompiler $ def
+      { sassIncludePaths = Just 
+          [ "third_party/foundation-sites/scss"
+          , "third_party/motion-ui/src"
+          , "third_party/font-awesome/scss"
+          ]
+      }
 
   create ["404.html"] $ do
     route $ setExtension "html"
@@ -320,6 +332,18 @@ grouper = fmap (paginateEvery 3) . sortRecentFirst
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ "/index.html"
+
+-- SASS COMPILER --------------------------------------------------------------
+
+sassCompiler :: SassOptions -> Compiler (Item String)
+sassCompiler options = getResourceBody >>= compileSass options
+  where
+    compileSass :: SassOptions -> Item String -> Compiler (Item String)
+    compileSass options item = join $ unsafeCompiler $ do
+      result <- compileFile (toFilePath $ itemIdentifier item) options
+      case result of
+        Left sassError -> errorMessage sassError >>= fail
+        Right result_ -> pure $ makeItem result_
 
 -- UTILITIES ------------------------------------------------------------------
 

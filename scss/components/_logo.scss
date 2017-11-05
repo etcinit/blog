@@ -1,0 +1,27 @@
+a#logo {
+  /*display: inline-block;*/
+
+  div {
+    background-image: url("/images/header_logo_float.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 60px;
+    height: 60px;
+    transition: transform 0.5s ease;
+
+    &:hover {
+      transform: scale(0.8) rotate(0.5turn);
+    }
+
+    &:active {
+      transform: scale(0.75) rotate(0.75turn);
+    }
+  }
+}
+
+div#logo-text {
+  display: inline-block;
+  height: 60px;
+  line-height: 60px;
+  margin-left: 10px;
+}

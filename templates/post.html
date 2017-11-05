@@ -1,6 +1,7 @@
 <div class="post">
-  <div class="row">
-    <div class="columns">
+  <div class="grid-x">
+    <div class="medium-2 hide-on-small cell"></div>
+    <div class="medium-8 small-12 cell">
       <a href="$url$">
         <h1 class="cardboard">
           <span class="$color$">$title$</span>
@@ -9,12 +10,19 @@
     </div>
   </div>
 
-  <div class="info">
-    <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
-    $if(author)$
-      by $author$
-    $endif$
-  </div>
+  <hr/>
 
-  $body$
+  <div class="grid-x grid-margin-x">
+    <div class="medium-2 cell">
+      <div class="info">
+        $if(author)$
+          <div><b>$author$</b></div>
+        $endif$
+
+        <time datetime="$datetime$" pubdate data-updated="true">$date$</time>
+      </div>
+    </div>
+
+    <div class="medium-8 cell">$body$</div>
+  </div>
 </div>

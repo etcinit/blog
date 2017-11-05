@@ -1,0 +1,9 @@
+.menu a {
+  color: #bbb;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.menu.align-right > li:last-of-type > a {
+  padding-right: 0;
+}

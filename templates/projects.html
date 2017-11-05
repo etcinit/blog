@@ -1,36 +1,44 @@
-<div class="row"><div class="column">
-  <h1 class="cardboard purple">Projects</h1>
-</div></div>
+<div class="leader">
+  <div class="leader-title">
+    Projects
+  </div>
 
-<p>Some things I've been working on:</p>
-
-<div class="masonry">
-  $for(posts)$
-      <div class="small-12">
-          <div class="callout">
-            $body$
-          </div>
-      </div>
-  $endfor$
+  <div class="leader-subtitle">
+    Some things I've been working on:
+  </div>
 </div>
 
-<h3>More Open-Source Projects</h3>
-<p>
-  You can find more projects (some of them Open Source) on my personal
-  Phabricator intance, GitHub and Bitbucket. Feel free to clone them and hack
-  stuff:
-</p>
+<div class="grid-x">
+  <div class="cell">
+    <div class="masonry">
+      $for(posts)$
+          <div class="small-12">
+              <div class="callout">
+                $body$
+              </div>
+          </div>
+      $endfor$
+    </div>
+  </div>
+</div>
 
-<div class="button-group">
-  <a class="button" href="http://phabricator.chromabits.com">
-    <i class="fa fa-cog"></i>&nbsp;
-    Phabricator
-  </a>
-  <a class="button" href="https://github.com/etcinit">
-    <i class="fa fa-github"></i>&nbsp;
-    GitHub</a>
-  <a class="button" href="https://bitbucket.org/etcinit">
-    <i class="fa fa-bitbucket"></i>&nbsp;
-    Bitbucket
-  </a>
+<div class="grid-x">
+  <div class="cell">
+    <h3>But wait, there&apos;s more!</h3>
+    <p>
+      You can find more projects (some of them Open Source) on my personal
+      Phabricator intance, GitHub and Bitbucket. Feel free to clone them and
+      hack stuff:
+    </p>
+
+    <div class="button-group">
+      <a class="button" href="http://phabricator.chromabits.com">
+        <i class="fa fa-cog"></i>&nbsp;
+        Phabricator
+      </a>
+      <a class="button" href="https://github.com/etcinit">
+        <i class="fa fa-github"></i>&nbsp;
+        GitHub</a>
+    </div>
+  </div>
 </div>

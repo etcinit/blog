@@ -1,13 +1,24 @@
-<div class="row align-center">
-  <div class="large-10 small-12 columns">
-    $body$
+$body$
 
-    <div class="callout">
-      <img src="/images/markdown-mark.svg" class="markdown-icon"/>
-      This post is also available in Markdown:
-      <a href="/$identifier$">View source</a>
-    </div>
+<hr/>
 
+<div class="grid-x grid-margin-x">
+  <div class="cell medium-2">
+    <div class="info">Alternative Formats</div>
+  </div>
+
+  <div class="cell medium-8">
+    <img src="/images/markdown-mark.svg" class="markdown-icon"/>
+    This post is also available in Markdown:
+    <a href="/$identifier$">View source</a>
+  </div>
+</div>
+
+<hr/>
+
+<div class="grid-x grid-margin-x">
+  <div class="cell medium-2"></div>
+  <div class="cell medium-8">
     $partial("templates/disqus.html")$
   </div>
 </div>

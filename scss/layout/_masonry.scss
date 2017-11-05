@@ -1,0 +1,23 @@
+@include breakpoint(medium) {
+    .masonry {
+      column-count: 3;
+      column-gap: rem-calc(15);
+
+      .callout {
+        margin-bottom: rem-calc(15);
+        display: inline-block;
+        width: 100%;
+      }
+    }
+
+    .text-left-medium {
+      text-align: left;
+    }
+}
+
+@include breakpoint(large) {
+    .masonry {
+      column-count: 4;
+      column-gap: rem-calc(15);
+    }
+}

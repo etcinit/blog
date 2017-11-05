@@ -1,53 +1,8 @@
-<div class="row align-center">
-  <div class="large-10 small-12 columns">
-    <div class="row">
-      <div class="medium-8 columns">
-        <h2>$title$</h2>
+<div class="grid-x align-center">
+  <div class="large-10 cell">
+    <h2>$title$</h2>
 
-        <p><span class="success label">$platform$</span></p>
-      </div>
-
-      <div class="medium-4 columns text-right">
-        <ul class="menu vertical">
-        $if(github)$
-          <li><a href="https://github.com/$github$">
-            <i class="fa fa-github"></i>
-            &nbsp;View on GitHub
-          </a></li>
-        $endif$
-        $if(docs)$
-          <li><a href="$docs$">
-            <i class="fa fa-book"></i>
-            &nbsp;Documentation
-          </a></li>
-        $endif$
-        $if(sourcegraph)$
-          <li><a href="$sourcegraph$">
-            <i class="fa fa-asterisk"></i>
-            &nbsp;Sourcegraph
-          </a></li>
-        $endif$
-        $if(post)$
-          <li><a href="$post$">
-            <i class="fa fa-file-text-o"></i>
-            &nbsp;Read blog post
-          </a></li>
-        $endif$
-        $if(dockerhub)$
-          <li><a href="https://hub.docker.com/$dockerhub$">
-            <i class="fa fa-ship"></i>
-            &nbsp;DockerHub
-          </a></li>
-        $endif$
-        $if(quay)$
-          <li><a href="https://quay.io/$quay$">
-            <i class="fa fa-ship"></i>
-            &nbsp;Quay.io
-          </a></li>
-        $endif$
-        <ul/>
-      </div>
-    </div>
+    <p><span class="success label">$platform$</span></p>
 
     $if(abandoned)$
     <div class="callout alert">
@@ -61,11 +16,66 @@
       </p>
     </div>
     $endif$
+  </div>
+</div>
 
-    <hr>
+<hr/>
 
+<div class="grid-x grid-margin-x">
+  <div class="cell large-1"></div>
+
+  <div class="cell large-8 medium-9">
     $body$
+  </div>
 
+  <div class="cell large-3 medium-3">
+    <ul class="menu vertical">
+    $if(github)$
+      <li><a href="https://github.com/$github$">
+        <i class="fa fa-github"></i>
+        &nbsp;GitHub
+      </a></li>
+    $endif$
+    $if(docs)$
+      <li><a href="$docs$">
+        <i class="fa fa-book"></i>
+        &nbsp;Documentation
+      </a></li>
+    $endif$
+    $if(sourcegraph)$
+      <li><a href="$sourcegraph$">
+        <i class="fa fa-asterisk"></i>
+        &nbsp;Sourcegraph
+      </a></li>
+    $endif$
+    $if(post)$
+      <li><a href="$post$">
+        <i class="fa fa-file-text-o"></i>
+        &nbsp;Read blog post
+      </a></li>
+    $endif$
+    $if(dockerhub)$
+      <li><a href="https://hub.docker.com/$dockerhub$">
+        <i class="fa fa-ship"></i>
+        &nbsp;DockerHub
+      </a></li>
+    $endif$
+    $if(quay)$
+      <li><a href="https://quay.io/$quay$">
+        <i class="fa fa-ship"></i>
+        &nbsp;Quay.io
+      </a></li>
+    $endif$
+    <ul/>
+  </div>
+</div>
+
+<hr/>
+
+<div class="grid-x grid-margin-x">
+  <div class="cell large-1"></div>
+
+  <div class="cell large-8 medium-9">
     $partial("templates/disqus.html")$
   </div>
 </div>

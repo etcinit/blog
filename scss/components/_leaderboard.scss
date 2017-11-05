@@ -1,0 +1,41 @@
+.leaderboard {
+  margin-bottom: 2rem;
+}
+
+.leaderboard > .cell {
+  padding: 1rem;
+
+  &.leaderboard-about {
+    background-color: $color-cyan;
+  }
+
+  &.leaderboard-rss {
+    background-color: $color-orange;
+  }
+
+  &.leaderboard-one,
+  &.leaderboard-three {
+    background-size: cover;
+  }
+
+  &.leaderboard-two {
+    background-color: $color-yellow;
+  }
+
+  &.leaderboard-one {
+    height: 300px;
+  }
+
+  &.leaderboard-two,
+  &.leaderboard-three,
+  &.leaderboard-rss {
+    height: 200px;
+  }
+
+  &.leaderboard-one,
+  &.leaderboard-two,
+  &.leaderboard-three,
+  &.leaderboard-rss {
+    color: #fff;
+  }
+}

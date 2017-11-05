@@ -1,0 +1,13 @@
+.leader {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  .leader-title {
+    font-weight: bold;
+    font-size: 5rem;
+  }
+
+  .leader-subtitle {
+    color: $color-secondary;
+  }
+}

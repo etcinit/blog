@@ -19,7 +19,7 @@ executable blog
   ghc-options:         -threaded
   build-depends:       base == 4.*,
                        lens,
-                       hakyll == 4.8.*,
+                       hakyll == 4.9.*,
                        kawaii,
                        filepath == 1.4.*,
                        split == 0.2.*,
@@ -27,11 +27,12 @@ executable blog
                        transformers,
                        containers == 0.5.*,
                        pandoc == 1.*,
-                       highlighting-kate == 0.6.*,
+                       skylighting,
                        unordered-containers,
                        aeson,
                        text,
-                       data-default
+                       data-default,
+                       hsass == 0.5.*
 
 executable server
   main-is:             server.hs
