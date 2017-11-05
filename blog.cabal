@@ -6,25 +6,25 @@ name:           blog
 version:        0.2.0.0
 synopsis:       Chromabits blog generator and server
 description:    Please see README.md
+category:       Web
 homepage:       https://chromabits.com
+author:         Eduardo Trujillo <ed@chromabits.com>
+copyright:      2015-2017 Eduardo Trujillo
 license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 cabal-version:  >= 1.10
-author:         Eduardo Trujillo <ed@chromabits.com>
-copyright:      2015-2017 Eduardo Trujillo
-category:       Web
 
 executable blog
   main-is: site.hs
   hs-source-dirs:
-      app
+      src
   ghc-options: -threaded
   build-depends:
       base >= 4.9
     , lens
     , text
-    , kawaii
+    , kawaii == 0.0.2.*
     , data-default
     , containers == 0.5.*
     , hakyll == 4.9.*
@@ -42,13 +42,13 @@ executable blog
 executable server
   main-is: server.hs
   hs-source-dirs:
-      app
+      src
   ghc-options: -threaded
   build-depends:
       base >= 4.9
     , lens
     , text
-    , kawaii
+    , kawaii == 0.0.2.*
     , data-default
     , containers == 0.5.*
     , safe == 0.3.*
