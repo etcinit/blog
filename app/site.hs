@@ -78,11 +78,11 @@ main = hakyllServeWith serveConf $ do
         writerOptions
 
   mapM_ matchAndCopyDirectory
-    ["images/*", "images/posts/*", "images/tumblr/*"]
+    ["content/images/*", "content/images/posts/*", "content/images/tumblr/*"]
   mapM_ matchAndCopy
-    [ ("favicon.ico", "ico")
-    , ("keybase.txt", "txt")
-    , ("robots.txt", "txt")
+    [ ("content/favicon.ico", "ico")
+    , ("content/keybase.txt", "txt")
+    , ("content/robots.txt", "txt")
     ]
   match "third_party/font-awesome/fonts/*" $ do
     route $ gsubRoute "third_party/font-awesome/" (const "")
@@ -98,21 +98,21 @@ main = hakyllServeWith serveConf $ do
           ]
       }
 
-  create ["404.html"] $ do
-    route $ setExtension "html"
+  create ["content/404.html"] $ do
+    route $ dropContentPrefix `composeRoutes` setExtension "html"
     compile $ pandocHtml5Compiler
       >>= loadAndApplyTemplate "templates/default.html" siteCtx
       >>= relativizeUrls
       >>= deIndexUrls
 
-  create ["about.html"] $ do
-    route $ indexify `composeRoutes` setExtension "html"
+  create ["content/about.html"] $ do
+    route $ dropContentPrefix `composeRoutes` indexify `composeRoutes` setExtension "html"
     compile $ pandocHtml5Compiler
       >>= loadAndApplyTemplate "templates/default.html" siteCtx
       >>= relativizeUrls
       >>= deIndexUrls
 
-  matchMetadata "posts/*" (HM.member "legacy") $ version "legacy" $ do
+  matchMetadata "content/posts/*" (HM.member "legacy") $ version "legacy" $ do
     route $ legacyRoute `composeRoutes` setExtension "html"
     compile $ do
       color <- unsafeCompiler pickColor
@@ -130,12 +130,12 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
-  match "posts/*" . version "markdown" $ do
-    route idRoute
+  match "content/posts/*" . version "markdown" $ do
+    route dropContentPrefix
     compile copyFileCompiler
 
-  match "posts/*" $ do
-    route $ directorizeDate "/index" `composeRoutes` setExtension "html"
+  match "content/posts/*" $ do
+    route $ dropContentPrefix `composeRoutes` directorizeDate "/index" `composeRoutes` setExtension "html"
     compile $ do
       color <- unsafeCompiler pickColor
       identifier <- getUnderlying
@@ -167,8 +167,8 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
-  match "projects/*" $ do
-    route $ indexify `composeRoutes` setExtension "html"
+  match "content/projects/*" $ do
+    route $ dropContentPrefix `composeRoutes` indexify `composeRoutes` setExtension "html"
     compile $ do
       compiled <- pandocHtml5Compiler
       full <- loadAndApplyTemplate
@@ -185,10 +185,10 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
-  create ["archive.html"] $ do
-    route indexify
+  create ["content/archive.html"] $ do
+    route $ dropContentPrefix `composeRoutes` indexify
     compile $ do
-      posts <- recentFirst =<< loadAll ("posts/*" .&&. hasNoVersion)
+      posts <- recentFirst =<< loadAll ("content/posts/*" .&&. hasNoVersion)
 
       let archiveCtx
             = listField "posts" postCtx (return posts)
@@ -201,10 +201,10 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
-  create ["projects.html"] $ do
-    route indexify
+  create ["content/projects.html"] $ do
+    route $ dropContentPrefix `composeRoutes` indexify
     compile $ do
-      projects <- loadAllSnapshots "projects/*" "teaser"
+      projects <- loadAllSnapshots "content/projects/*" "teaser"
 
       let archiveCtx
             = listField "posts" siteCtx (return projects)
@@ -217,10 +217,10 @@ main = hakyllServeWith serveConf $ do
         >>= relativizeUrls
         >>= deIndexUrls
 
-  pag <- buildPaginateWith grouper ("posts/*" .&&. hasNoVersion) makeId
+  pag <- buildPaginateWith grouper ("content/posts/*" .&&. hasNoVersion) makeId
 
-  match "index.html" $ do
-    route idRoute
+  match "content/index.html" $ do
+    route dropContentPrefix
     compile $ do
       tpl <- loadBody "templates/post-item-full.html"
       body <- readTemplate . itemBody <$> getResourceBody
@@ -228,7 +228,7 @@ main = hakyllServeWith serveConf $ do
       let paginateCtx = paginateContext pag 1
       let ctx = paginateCtx <> indexCtx
 
-      loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content"
+      loadAllSnapshots ("content/posts/*" .&&. hasNoVersion) "content"
         >>= fmap (take 3) . recentFirst
         >>= applyTemplateList tpl ctx
         >>= makeItem
@@ -265,7 +265,7 @@ main = hakyllServeWith serveConf $ do
       let context = postCtx <> bodyField "description"
 
       posts <- fmap (take 10) . recentFirst
-        =<< loadAllSnapshots ("posts/*" .&&. hasNoVersion) "content-body"
+        =<< loadAllSnapshots ("content/posts/*" .&&. hasNoVersion) "content-body"
       renderRss feedConf context posts
 
 -- CONTEXTS -------------------------------------------------------------------
@@ -313,16 +313,19 @@ legacyRoute = metadataRoute $ \x -> constRoute . T.unpack . mconcat $
   , "/index.html"
   ]
 
+dropContentPrefix :: Routes
+dropContentPrefix = gsubRoute "content/" (const "")
+
 -- RULE HELPERS ---------------------------------------------------------------
 
 matchAndCopyDirectory :: Pattern -> Rules ()
 matchAndCopyDirectory dir = match dir $ do
-  route idRoute
+  route dropContentPrefix
   compile copyFileCompiler
 
 matchAndCopy :: (Pattern, String) -> Rules ()
 matchAndCopy (path, extension) = match path $ do
-  route $ setExtension extension
+  route $ dropContentPrefix `composeRoutes` setExtension extension
   compile copyFileCompiler
 
 -- IDENTIFIER HELPERS ---------------------------------------------------------
