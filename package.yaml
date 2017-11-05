@@ -1,0 +1,49 @@
+name: blog
+version: 0.2.0.0
+synopsis: Chromabits blog generator and server
+description: Please see README.md
+homepage: https://chromabits.com
+license: MIT
+author: Eduardo Trujillo <ed@chromabits.com>
+copyright: 2015-2017 Eduardo Trujillo
+category: Web
+
+ghc-options: -threaded
+
+dependencies:
+  - base >= 4.9
+  - lens
+  - text
+  - kawaii
+  - data-default
+  - containers == 0.5.*
+
+executables:
+  blog:
+    main: site.hs
+    source-dirs:
+      - app
+    dependencies:
+      - hakyll == 4.9.*
+      - filepath == 1.4.*
+      - split == 0.2.*
+      - random
+      - transformers
+      - pandoc == 1.*
+      - skylighting
+      - unordered-containers
+      - aeson
+      - hsass == 0.5.*
+  server:
+    main: server.hs
+    source-dirs:
+      - app
+    dependencies:
+      - safe == 0.3.*
+      - bytestring == 0.10.*
+      - warp == 3.*
+      - warp-tls == 3.*
+      - wai == 3.*
+      - wai-extra >= 3.0.14
+      - wai-app-static == 3.*
+      - streaming-commons == 0.1.*
