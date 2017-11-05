@@ -1,7 +1,7 @@
-@import url("https://rsms.me/inter/inter-ui.css");
-
 @import "settings";
 
+$fa-font-path: "/fonts";
+$inter-font-path: "/fonts";
 $global-flexbox: true;
 
 // Foundation
@@ -45,7 +45,6 @@ $global-flexbox: true;
 
 @include foundation-xy-grid-classes;
 
-$fa-font-path: "/fonts";
 @import "font-awesome";
 
 @import "colors";
@@ -58,6 +57,7 @@ $fa-font-path: "/fonts";
 @import "layout/masonry";
 @import "typography/code";
 @import "typography/headers";
+@import "typography/inter-ui";
 
 html {
   height: 100%;

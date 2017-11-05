@@ -78,7 +78,11 @@ main = hakyllServeWith serveConf $ do
         writerOptions
 
   mapM_ matchAndCopyDirectory
-    ["content/images/*", "content/images/posts/*", "content/images/tumblr/*"]
+    [ "content/fonts/*"
+    , "content/images/*"
+    , "content/images/posts/*"
+    , "content/images/tumblr/*"
+    ]
   mapM_ matchAndCopy
     [ ("content/favicon.ico", "ico")
     , ("content/keybase.txt", "txt")
