@@ -91,6 +91,12 @@ main = hakyllServeWith serveConf $ do
   match "third_party/font-awesome/fonts/*" $ do
     route $ gsubRoute "third_party/font-awesome/" (const "")
     compile copyFileCompiler
+  mapM_ matchThirdPartyJSAndCopy
+    [ "third_party/mathjax/MathJax.js"
+    , "third_party/mathjax/config/**"
+    , "third_party/mathjax/extensions/**"
+    , "third_party/mathjax/jax/**"
+    ]
 
   create ["scss/app.scss"] $ do
     route $ gsubRoute "scss/" (const "css/") `composeRoutes` setExtension "css"
@@ -330,6 +336,11 @@ matchAndCopyDirectory dir = match dir $ do
 matchAndCopy :: (Pattern, String) -> Rules ()
 matchAndCopy (path, extension) = match path $ do
   route $ dropContentPrefix `composeRoutes` setExtension extension
+  compile copyFileCompiler
+
+matchThirdPartyJSAndCopy :: Pattern -> Rules ()
+matchThirdPartyJSAndCopy dir = match dir $ do
+  route $ gsubRoute "third_party/" (const "js/")
   compile copyFileCompiler
 
 -- IDENTIFIER HELPERS ---------------------------------------------------------

@@ -7,3 +7,6 @@
 [submodule "third_party/foundation-sites"]
 	path = third_party/foundation-sites
 	url = https://github.com/zurb/foundation-sites.git
+[submodule "third_party/mathjax"]
+	path = third_party/mathjax
+	url = https://github.com/mathjax/MathJax.git
