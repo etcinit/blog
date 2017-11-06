@@ -37,12 +37,6 @@ serveConf = def & hscHakyllConfiguration .~ hakyllConf
 
 hakyllConf :: Configuration
 hakyllConf = defaultConfiguration
-  { deployCommand
-      = "rsync -ave 'ssh' _site/* 45.79.220.75:/var/www/chromabits "
-      <> "&& rsync -ave 'ssh' "
-      <> ".stack-work/install/x86_64-linux/lts-6.7/7.10.3/bin/server "
-      <> "45.79.220.75:/opt/chromabits"
-  }
 
 siteConf :: SiteConfiguration
 siteConf = SiteConfiguration
