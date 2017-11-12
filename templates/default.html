@@ -10,9 +10,23 @@
     $else$
     <title>Chromabits</title>
     $endif$
-    <link rel="stylesheet" type="text/css" href="/css/app.css" />
+
+
+    <meta property="og:site_name" content="Chromabits" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://chromabits.com$url$" />
+    $if(title)$
+    <meta property="og:title" content="$title$" />
+    $else$
+    <meta property="og:title" content="Chromabits" />
+    $endif$
+    $if(feature-image)$
+    <meta property="og:image" content="https://chromabits.com$feature-image$" />
+    $endif$
 
     <meta property="fb:admins" content="etcinit"/>
+
+    <link rel="stylesheet" type="text/css" href="/css/app.css" />
   </head>
   <body>
     <div id="fb-root"></div>
@@ -35,8 +49,9 @@
             <div id="logo-text"><b>CHROMABITS</b></div>
           </div>
 
-          <div class="show-for-small-only">
+          <div class="grid-x show-for-small-only align-center">
             <div><a href="/" id="logo"><div></div></a></div>
+            <div id="logo-text"><b>CHROMABITS</b></div>
           </div>
         </div>
 
@@ -47,7 +62,7 @@
             <li><a href="/projects">Projects</a></li>
             <li><a href="/archive">Archive</a></li>
           </ul>
-          <ul class="menu inline-block show-for-small-only">
+          <ul class="menu show-for-small-only align-center">
             <li><a href="/about">About</a></li>
             <li><a href="/projects">Projects</a></li>
             <li><a href="/archive">Archive</a></li>
