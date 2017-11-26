@@ -47,3 +47,10 @@ executables:
       - wai-extra >= 3.0.14
       - wai-app-static == 3.*
       - streaming-commons == 0.1.*
+  builder:
+    main: builder.hs
+    source-dirs:
+      - src
+    dependencies:
+      - turtle
+      - system-filepath
